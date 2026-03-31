@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Maestro – Dani</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #090909;
+    --white: #f4f3ef;
+    --accent: #c8ff00;
+    --blue: #00d4ff;
+    --purple: #a78bfa;
+    --gold: #fbbf24;
+    --red: #f87171;
+    --green: #4ade80;
+    --orange: #fb923c;
+    --muted: #111;
+    --card: #181818;
+    --card2: #202020;
+    --dim: #606060;
+    --border: #222;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; padding: 0 0 120px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(9,9,9,0.97); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; overflow-x: auto; scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    color: var(--dim); text-decoration: none; font-size: 10px;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 15px 18px; white-space: nowrap;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  nav a:hover { color: var(--white); }
+  nav a.active-link { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    max-width: 1000px; margin: 0 auto;
+    padding: 56px 30px 48px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 1px solid var(--border); gap: 24px;
+  }
+  .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px,9vw,92px); line-height: 0.88; letter-spacing: 3px; }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero h1 small { color: var(--dim); font-size: 0.18em; display: block; letter-spacing: 8px; margin-bottom: 8px; font-family:'DM Sans',sans-serif; font-weight:400; text-transform:uppercase; }
+  .hero-stats { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+  .hero-stat { text-align: right; }
+  .hero-stat .v { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--accent); line-height: 1; }
+  .hero-stat .l { font-size: 10px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
+
+  /* SECTION */
+  section { max-width: 1000px; margin: 0 auto; padding: 48px 30px 0; }
+  .sec-label { font-size: 10px; letter-spacing: 4px; color: var(--dim); text-transform: uppercase; margin-bottom: 20px; }
+
+  /* CHAPTER HEADER */
+  .chapter {
+    max-width: 1000px; margin: 56px auto 0;
+    padding: 24px 30px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 20px;
+  }
+  .chapter-num { font-family:'Bebas Neue',sans-serif; font-size:56px; color: var(--border); line-height:1; }
+  .chapter-title { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:2px; }
+  .chapter-title span { color: var(--accent); }
+  .chapter-sub { font-size:12px; color:var(--dim); margin-top:2px; }
+
+  /* MACRO GRID */
+  .macro-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
+  .macro-card { background:var(--card); padding:20px 16px; transition:background 0.15s; }
+  .macro-card:hover { background:var(--card2); }
+  .macro-card .ml { font-size:10px; letter-spacing:2px; color:var(--dim); margin-bottom:5px; }
+  .macro-card .mv { font-family:'Bebas Neue',sans-serif; font-size:36px; line-height:1; color:var(--accent); }
+  .macro-card.b .mv { color:var(--blue); }
+  .macro-card .mu { font-size:11px; color:var(--dim); margin-top:3px; }
+
+  /* COMPARE */
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); margin-bottom:12px; }
+  .compare-col { background:var(--card); padding:20px; }
+  .compare-col.rc { background:#0e0e0e; }
+  .col-badge { display:inline-block; font-size:9px; letter-spacing:2px; padding:3px 10px; border-radius:2px; margin-bottom:12px; font-weight:600; }
+  .col-badge.tr { background:rgba(200,255,0,0.1); color:var(--accent); border:1px solid rgba(200,255,0,0.2); }
+  .col-badge.rs { background:rgba(0,212,255,0.08); color:var(--blue); border:1px solid rgba(0,212,255,0.18); }
+  .compare-nums { display:flex; gap:16px; flex-wrap:wrap; }
+  .cn .v { font-family:'Bebas Neue',sans-serif; font-size:24px; line-height:1; }
+  .cn .v.g { color:var(--accent); } .cn .v.b { color:var(--blue); }
+  .cn .l { font-size:10px; color:var(--dim); margin-top:2px; }
+  .compare-note { margin-top:10px; font-size:12px; color:var(--dim); padding-top:10px; border-top:1px solid var(--border); line-height:1.6; }
+  .compare-note strong { color:var(--white); }
+
+  /* TIMELINE */
+  .tl-item { display:grid; grid-template-columns:92px 1fr; margin-bottom:1px; }
+  .tl-time { background:var(--card); padding:18px 12px; border-right:3px solid var(--accent); display:flex; flex-direction:column; justify-content:center; }
+  .tl-time.bl { border-right-color:var(--blue); }
+  .tl-time.pu { border-right-color:var(--purple); }
+  .tl-time .t { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--accent); line-height:1; }
+  .tl-time.bl .t { color:var(--blue); }
+  .tl-time.pu .t { color:var(--purple); }
+  .tl-time .tl { font-size:9px; letter-spacing:1px; color:var(--dim); margin-top:2px; text-transform:uppercase; }
+  .tl-body { background:var(--card); padding:16px 20px; }
+  .tl-name { font-weight:600; font-size:14px; margin-bottom:5px; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tag { font-size:9px; letter-spacing:1.5px; padding:2px 7px; border-radius:2px; }
+  .tag.g { background:rgba(200,255,0,0.08); color:var(--accent); border:1px solid rgba(200,255,0,0.2); }
+  .tag.b { background:rgba(0,212,255,0.07); color:var(--blue); border:1px solid rgba(0,212,255,0.18); }
+  .tag.p { background:rgba(167,139,250,0.08); color:var(--purple); border:1px solid rgba(167,139,250,0.2); }
+  .tag.k { background:rgba(251,191,36,0.08); color:var(--gold); border:1px solid rgba(251,191,36,0.2); }
+  .tag.s { background:rgba(248,113,113,0.08); color:var(--red); border:1px solid rgba(248,113,113,0.2); }
+  .tl-foods { font-size:12.5px; color:var(--dim); line-height:1.75; margin-bottom:10px; }
+  .tl-foods strong { color:var(--white); }
+  .tl-macros { display:flex; gap:14px; padding-top:9px; border-top:1px solid var(--border); flex-wrap:wrap; }
+  .tm { font-size:11px; }
+  .tm strong { display:block; font-size:13px; color:var(--white); }
+  .tm span { color:var(--dim); }
+
+  /* SPECIAL BARS */
+  .bar-train { background:var(--accent); color:var(--black); padding:18px 20px; margin-bottom:1px; }
+  .bar-sleep { background:var(--purple); color:var(--black); padding:18px 20px; margin-bottom:1px; }
+  .bar-rest  { background:var(--blue);   color:var(--black); padding:18px 20px; margin-bottom:1px; }
+  .bar-title { font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:2px; }
+  .bar-sub   { font-size:11px; margin-top:3px; opacity:0.65; }
+
+  /* TABS */
+  .tabs { display:flex; border:1px solid var(--border); border-bottom:none; overflow-x:auto; scrollbar-width:none; }
+  .tabs::-webkit-scrollbar { display:none; }
+  .tab-btn { background:var(--muted); color:var(--dim); border:none; padding:11px 18px; font-family:'DM Sans',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; border-right:1px solid var(--border); transition:all 0.15s; white-space:nowrap; }
+  .tab-btn:hover { background:var(--card); color:var(--white); }
+  .tab-btn.active { background:var(--card2); color:var(--accent); }
+  .tab-content { display:none; }
+  .tab-content.active { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
+
+  /* ALT CARDS */
+  .alt-card { background:var(--card); padding:17px 18px; transition:background 0.15s; position:relative; }
+  .alt-card:hover { background:var(--card2); }
+  .alt-num { font-size:9px; letter-spacing:3px; color:var(--dim); margin-bottom:6px; }
+  .alt-name { font-weight:600; font-size:13px; margin-bottom:7px; }
+  .tip { position:absolute; top:10px; right:10px; font-size:9px; letter-spacing:1px; padding:2px 6px; border-radius:2px; }
+  .tip.star { background:rgba(200,255,0,0.08); color:var(--accent); border:1px solid rgba(200,255,0,0.18); }
+  .tip.fast { background:rgba(0,212,255,0.06); color:var(--blue); border:1px solid rgba(0,212,255,0.15); }
+  .tip.carb { background:rgba(251,191,36,0.07); color:var(--gold); border:1px solid rgba(251,191,36,0.18); }
+  .alt-foods { font-size:12px; color:var(--dim); line-height:1.7; margin-bottom:10px; }
+  .alt-foods strong { color:var(--white); }
+  .alt-macros { display:flex; gap:10px; padding-top:9px; border-top:1px solid var(--border); }
+  .am .v { color:var(--accent); font-weight:600; display:block; font-size:13px; }
+  .am .l { color:var(--dim); font-size:11px; }
+
+  /* SUPPS */
+  .supp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
+  .supp-card { background:var(--card); padding:15px 17px; transition:background 0.15s; }
+  .supp-card:hover { background:var(--card2); }
+  .supp-name { font-weight:600; font-size:13px; margin-bottom:3px; }
+  .supp-dose { font-size:12px; color:var(--accent); margin-bottom:4px; }
+  .supp-when { font-size:11px; color:var(--dim); line-height:1.5; }
+
+  /* INFUSIONS */
+  .inf-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
+  .inf-card { background:var(--card); padding:16px 18px; border-top:2px solid var(--purple); transition:background 0.15s; }
+  .inf-card:hover { background:var(--card2); }
+  .inf-card.morning { border-top-color:var(--gold); }
+  .inf-name { font-weight:600; font-size:13px; margin-bottom:3px; }
+  .inf-when { font-size:11px; color:var(--purple); margin-bottom:5px; }
+  .inf-card.morning .inf-when { color:var(--gold); }
+  .inf-why { font-size:11px; color:var(--dim); line-height:1.55; }
+  .inf-why strong { color:var(--white); }
+
+  /* SLEEP RULES / STOP / DO */
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
+  .grid3-auto { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
+  .g-card { background:var(--card); padding:18px 20px; }
+  .g-card-n { font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--accent); line-height:1; margin-bottom:5px; }
+  .g-card-n.pu { color:var(--purple); }
+  .g-card-title { font-weight:600; font-size:13px; margin-bottom:5px; }
+  .g-card-body { font-size:12px; color:var(--dim); line-height:1.6; }
+  .g-card-body strong { color:var(--white); }
+  .g-card.stop-card { border-top:2px solid var(--red); }
+  .g-card.do-card { border-top:2px solid var(--purple); }
+
+  /* SHOPPING */
+  .shop-cat { background:var(--card); padding:20px; grid-column:1/-1; }
+  .shop-cat-label { font-size:10px; letter-spacing:3px; margin-bottom:14px; text-transform:uppercase; }
+  .shop-items { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:8px; }
+  .shop-item { background:var(--card2); padding:11px 14px; }
+  .shop-item-name { font-weight:600; font-size:13px; }
+  .shop-item-qty { font-family:'Bebas Neue',sans-serif; font-size:22px; line-height:1; margin:3px 0; }
+  .shop-item-note { font-size:11px; color:var(--dim); }
+
+  /* NOTES BOX */
+  .notes-box { border:1px solid var(--border); padding:20px 22px; background:var(--card); }
+  .notes-box ul { list-style:none; display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:8px; }
+  .notes-box li { font-size:12px; color:var(--dim); padding-left:14px; position:relative; line-height:1.6; }
+  .notes-box li::before { content:'→'; position:absolute; left:0; color:var(--accent); }
+  .notes-box li strong { color:var(--white); }
+
+  /* SCIENCE */
+  .science-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+  .sci-item { font-size:12px; color:var(--dim); line-height:1.6; padding-left:14px; position:relative; }
+  .sci-item::before { content:'→'; position:absolute; left:0; color:var(--gold); }
+  .sci-item strong { color:var(--white); }
+
+  @media(max-width:640px){
+    .hero { flex-direction:column; align-items:flex-start; padding:36px 16px; }
+    .hero-stats { align-items:flex-start; flex-direction:row; flex-wrap:wrap; gap:14px; }
+    .hero-stat { text-align:left; }
+    section { padding:36px 16px 0; }
+    .chapter { padding:20px 16px; }
+    .macro-grid { grid-template-columns:repeat(2,1fr); }
+    .compare { grid-template-columns:1fr; }
+    .tl-item { grid-template-columns:72px 1fr; }
+    .grid3 { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#inicio" class="active-link">Inicio</a>
+  <a href="#macros">Macros</a>
+  <a href="#entreno">Día Entreno</a>
+  <a href="#descanso">Día Descanso</a>
+  <a href="#alternativas">Alternativas</a>
+  <a href="#suplementos">Suplementos</a>
+  <a href="#sueno">Sueño</a>
+  <a href="#infusiones">Infusiones</a>
+  <a href="#reglas">Reglas</a>
+  <a href="#compra">Lista Compra</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="inicio">
+  <h1>
+    <small>Plan Maestro · Volumen Limpio</small>
+    DANI<br><em>GOMEZ</em>
+  </h1>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="v">88kg · 189cm</div><div class="l">Perfil</div></div>
+    <div class="hero-stat"><div class="v">PPL · 6 días</div><div class="l">Rutina</div></div>
+    <div class="hero-stat"><div class="v">3.120 kcal</div><div class="l">Día entreno</div></div>
+    <div class="hero-stat"><div class="v">2.600 kcal</div><div class="l">Día descanso</div></div>
+    <div class="hero-stat"><div class="v">+0.3–0.5kg/mes</div><div class="l">Objetivo</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ CAP 1: NUTRICIÓN ═══════════════ -->
+<div class="chapter" id="macros">
+  <div class="chapter-num">01</div>
+  <div>
+    <div class="chapter-title">NUTRICIÓN · <span>MACROS</span></div>
+    <div class="chapter-sub">Volumen limpio · Superávit +250 kcal · Entreno 12:00h</div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-label">Comparativa días entreno vs descanso</div>
+  <div class="compare">
+    <div class="compare-col">
+      <div class="col-badge tr">🏋 Día entrenamiento</div>
+      <div class="compare-nums">
+        <div class="cn"><div class="v g">3.120</div><div class="l">kcal</div></div>
+        <div class="cn"><div class="v g">176g</div><div class="l">proteína</div></div>
+        <div class="cn"><div class="v g">408g</div><div class="l">carbos</div></div>
+        <div class="cn"><div class="v g">87g</div><div class="l">grasas</div></div>
+      </div>
+      <div class="compare-note">Superávit <strong>+250 kcal</strong>. Amilopectina y crema de arroz activos.</div>
+    </div>
+    <div class="compare-col rc">
+      <div class="col-badge rs">😴 Día descanso</div>
+      <div class="compare-nums">
+        <div class="cn"><div class="v b">2.600</div><div class="l">kcal</div></div>
+        <div class="cn"><div class="v b">176g</div><div class="l">proteína</div></div>
+        <div class="cn"><div class="v b">230g</div><div class="l">carbos</div></div>
+        <div class="cn"><div class="v b">90g</div><div class="l">grasas</div></div>
+      </div>
+      <div class="compare-note">Elimina <strong>amilopectina, crema de arroz y pre-entreno</strong>. Proteína igual.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DÍA ENTRENO -->
+<section id="entreno">
+  <div class="sec-label">Día de entrenamiento · Distribución horaria</div>
+  <div class="tl-item">
+    <div class="tl-time"><div class="t">08:00</div><div class="tl">Desayuno</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Desayuno de volumen <span class="tag g">COMIDA 1</span></div>
+      <div class="tl-foods"><strong>Avena</strong> 80g · <strong>Leche entera</strong> 300ml · <strong>4 huevos</strong> revueltos · <strong>Plátano</strong> 1<br>Opcional: <strong>Crema de arroz</strong> 50g si el desayuno llega tarde</div>
+      <div class="tl-macros"><div class="tm"><strong>780 kcal</strong><span>calorías</span></div><div class="tm"><strong>42g</strong><span>proteína</span></div><div class="tm"><strong>95g</strong><span>carbos</span></div><div class="tm"><strong>22g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time"><div class="t">10:30</div><div class="tl">Pre-entreno</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Comida pre-entreno <span class="tag g">COMIDA 2</span></div>
+      <div class="tl-foods"><strong>Arroz blanco</strong> 100g crudo · <strong>Pechuga pollo</strong> 150g · <strong>AOVE</strong> 10ml<br>+ <strong>Amilopectina</strong> 35g (30 min antes) · <strong>Pre-entreno</strong> (20 min antes)</div>
+      <div class="tl-macros"><div class="tm"><strong>620 kcal</strong><span>calorías</span></div><div class="tm"><strong>45g</strong><span>proteína</span></div><div class="tm"><strong>80g</strong><span>carbos</span></div><div class="tm"><strong>12g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item" style="display:block;">
+    <div class="bar-train"><div class="bar-title">🏋 ENTRENAMIENTO · 12:00 – 13:30h</div><div class="bar-sub">Creatina 5g con agua · Glutamina 5g opcional intra-entreno</div></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time"><div class="t">13:45</div><div class="tl">Post-entreno</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Almuerzo post-entreno <span class="tag g">COMIDA 3</span></div>
+      <div class="tl-foods">Inmediato: <strong>Whey</strong> 1 scoop + <strong>Crema de arroz</strong> 60g<br>45 min después: <strong>Salmón/Ternera</strong> 200g + <strong>Arroz</strong> 120g + <strong>Verduras</strong> + AOVE</div>
+      <div class="tl-macros"><div class="tm"><strong>820 kcal</strong><span>calorías</span></div><div class="tm"><strong>58g</strong><span>proteína</span></div><div class="tm"><strong>100g</strong><span>carbos</span></div><div class="tm"><strong>18g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time"><div class="t">17:30</div><div class="tl">Merienda</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Merienda <span class="tag g">COMIDA 4</span></div>
+      <div class="tl-foods"><strong>Yogur griego</strong> 200g · <strong>Frutos secos</strong> 30g · <strong>Manzana o pera</strong><br>+ <strong>Vitamina C</strong> · <strong>Multivitamínico</strong> · <strong>Omega-3</strong> 2-3 cápsulas</div>
+      <div class="tl-macros"><div class="tm"><strong>450 kcal</strong><span>calorías</span></div><div class="tm"><strong>20g</strong><span>proteína</span></div><div class="tm"><strong>35g</strong><span>carbos</span></div><div class="tm"><strong>22g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time"><div class="t">21:00</div><div class="tl">Cena</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Cena + Ashwagandha <span class="tag g">COMIDA 5</span></div>
+      <div class="tl-foods"><strong>Merluza/Atún/Pollo</strong> 180g · <strong>Batata</strong> 200g · <strong>Ensalada</strong> + AOVE<br>+ <strong>Ashwagandha</strong> 500mg · empieza a bajar el cortisol para el sueño</div>
+      <div class="tl-macros"><div class="tm"><strong>580 kcal</strong><span>calorías</span></div><div class="tm"><strong>45g</strong><span>proteína</span></div><div class="tm"><strong>65g</strong><span>carbos</span></div><div class="tm"><strong>13g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:00</div><div class="tl">Wind down</div></div>
+    <div class="tl-body">
+      <div class="tl-name">🌿 Infusión nocturna <span class="tag p">SUEÑO</span></div>
+      <div class="tl-foods"><strong>Manzanilla o Tilo</strong> — apaga todas las pantallas · estiramientos 10 min<br>Inicio del ritual de sueño. Sin móvil, sin TV, sin videojuegos desde este momento.</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:30</div><div class="tl">Stack noche</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Caseína + ZMA <span class="tag p">COMIDA 6</span></div>
+      <div class="tl-foods"><strong>Caseína</strong> 1 scoop · <strong>Zinc</strong> 1 toma · <strong>Magnesio citrato</strong> 2 cápsulas<br>Síntesis proteica nocturna · regulación hormonal · sueño profundo</div>
+      <div class="tl-macros"><div class="tm"><strong>130 kcal</strong><span>calorías</span></div><div class="tm"><strong>26g</strong><span>proteína</span></div><div class="tm"><strong>5g</strong><span>carbos</span></div><div class="tm"><strong>2g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item" style="display:block;">
+    <div class="bar-sleep"><div class="bar-title">🌙 DORMIR · 23:00 → 07:00 · 8 horas</div><div class="bar-sub">GH · Testosterona · Síntesis proteica · Recuperación completa</div></div>
+  </div>
+</section>
+
+<!-- DÍA DESCANSO -->
+<section id="descanso">
+  <div class="sec-label">Día de descanso · 2.600 kcal · Carbos reducidos</div>
+  <div class="tl-item">
+    <div class="tl-time bl"><div class="t">08:30</div><div class="tl">Desayuno</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Desayuno proteico <span class="tag b">COMIDA 1</span></div>
+      <div class="tl-foods"><strong>4 huevos</strong> revueltos · <strong>Pan integral</strong> 3 rebanadas · <strong>Aguacate</strong> ½ · Tomate · Café</div>
+      <div class="tl-macros"><div class="tm"><strong>600 kcal</strong><span>calorías</span></div><div class="tm"><strong>32g</strong><span>proteína</span></div><div class="tm"><strong>42g</strong><span>carbos</span></div><div class="tm"><strong>28g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time bl"><div class="t">13:00</div><div class="tl">Almuerzo</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Almuerzo de descanso <span class="tag b">COMIDA 2</span></div>
+      <div class="tl-foods"><strong>Ternera o pollo</strong> 200g · <strong>Arroz</strong> 80g · <strong>Verduras abundantes</strong> · AOVE 15ml<br>Sin amilopectina · Sin crema de arroz</div>
+      <div class="tl-macros"><div class="tm"><strong>650 kcal</strong><span>calorías</span></div><div class="tm"><strong>48g</strong><span>proteína</span></div><div class="tm"><strong>55g</strong><span>carbos</span></div><div class="tm"><strong>18g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item" style="display:block;">
+    <div class="bar-rest"><div class="bar-title">😴 DÍA DE DESCANSO · Recuperación activa</div><div class="bar-sub">Paseo, movilidad, estiramientos · Creatina igual: 5g con agua</div></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time bl"><div class="t">17:00</div><div class="tl">Merienda</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Merienda ligera <span class="tag b">COMIDA 3</span></div>
+      <div class="tl-foods"><strong>Requesón</strong> 250g · <strong>Fruta</strong> 1 pieza · <strong>Frutos secos</strong> 20g<br>+ Vitamina C · Multivitamínico · Omega-3</div>
+      <div class="tl-macros"><div class="tm"><strong>380 kcal</strong><span>calorías</span></div><div class="tm"><strong>28g</strong><span>proteína</span></div><div class="tm"><strong>28g</strong><span>carbos</span></div><div class="tm"><strong>16g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time bl"><div class="t">21:00</div><div class="tl">Cena</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Cena alta proteína <span class="tag b">COMIDA 4</span></div>
+      <div class="tl-foods"><strong>Salmón</strong> 200g · <strong>Ensalada grande</strong> · <strong>2 huevos duros</strong> · AOVE 15ml<br>+ <strong>Ashwagandha</strong> con la cena</div>
+      <div class="tl-macros"><div class="tm"><strong>560 kcal</strong><span>calorías</span></div><div class="tm"><strong>48g</strong><span>proteína</span></div><div class="tm"><strong>10g</strong><span>carbos</span></div><div class="tm"><strong>28g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:00</div><div class="tl">Wind down</div></div>
+    <div class="tl-body">
+      <div class="tl-name">🌿 Infusión nocturna <span class="tag p">SUEÑO</span></div>
+      <div class="tl-foods"><strong>Manzanilla o Tilo</strong> · apaga pantallas · estiramientos 10 min<br>Habitación: 18-20°C · oscuridad total · silencio o ruido blanco</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:30</div><div class="tl">Stack noche</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Caseína + ZMA <span class="tag b">COMIDA 5</span></div>
+      <div class="tl-foods"><strong>Caseína</strong> 1 scoop + <strong>Yogur griego 0%</strong> 100g · <strong>Zinc</strong> 1 toma · <strong>Magnesio citrato</strong> 2 cápsulas</div>
+      <div class="tl-macros"><div class="tm"><strong>240 kcal</strong><span>calorías</span></div><div class="tm"><strong>40g</strong><span>proteína</span></div><div class="tm"><strong>10g</strong><span>carbos</span></div><div class="tm"><strong>4g</strong><span>grasas</span></div></div>
+    </div>
+  </div>
+  <div class="tl-item" style="display:block;">
+    <div class="bar-sleep"><div class="bar-title">🌙 DORMIR · 23:00 → 07:00 · 8 horas</div><div class="bar-sub">Los días de descanso son donde más músculo se construye — maximiza la recuperación</div></div>
+  </div>
+</section>
+
+<!-- ALTERNATIVAS -->
+<section id="alternativas">
+  <div class="sec-label">Alternativas por comida · 4 opciones cada una</div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('des',this)">Desayuno</button>
+    <button class="tab-btn" onclick="showTab('pre',this)">Pre-entreno</button>
+    <button class="tab-btn" onclick="showTab('post',this)">Post / Almuerzo</button>
+    <button class="tab-btn" onclick="showTab('mer',this)">Merienda</button>
+    <button class="tab-btn" onclick="showTab('cen',this)">Cena</button>
+  </div>
+  <div id="tab-des" class="tab-content active">
+    <div class="alt-card"><span class="tip star">⭐ Top</span><div class="alt-num">OPCIÓN 01</div><div class="alt-name">Avena + Huevos clásico</div><div class="alt-foods"><strong>Avena</strong> 80g · <strong>Leche entera</strong> 300ml · <strong>4 huevos</strong> revueltos · <strong>Plátano</strong> 1</div><div class="alt-macros"><div class="am"><span class="v">780</span><span class="l">kcal</span></div><div class="am"><span class="v">42g</span><span class="l">prot</span></div><div class="am"><span class="v">95g</span><span class="l">carbos</span></div><div class="am"><span class="v">22g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><span class="tip fast">Rápido</span><div class="alt-num">OPCIÓN 02</div><div class="alt-name">Tortitas proteicas de avena</div><div class="alt-foods"><strong>Avena</strong> 80g · <strong>3 huevos + 2 claras</strong> · <strong>Requesón</strong> 150g · <strong>Miel</strong> 15g · Fruta</div><div class="alt-macros"><div class="am"><span class="v">760</span><span class="l">kcal</span></div><div class="am"><span class="v">48g</span><span class="l">prot</span></div><div class="am"><span class="v">85g</span><span class="l">carbos</span></div><div class="am"><span class="v">18g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 03</div><div class="alt-name">Bowl griego de volumen</div><div class="alt-foods"><strong>Yogur griego</strong> 300g · <strong>Granola</strong> 60g · <strong>Whey</strong> 1 scoop · <strong>Plátano</strong> · Frutos rojos</div><div class="alt-macros"><div class="am"><span class="v">740</span><span class="l">kcal</span></div><div class="am"><span class="v">55g</span><span class="l">prot</span></div><div class="am"><span class="v">88g</span><span class="l">carbos</span></div><div class="am"><span class="v">14g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><span class="tip carb">Alto carbo</span><div class="alt-num">OPCIÓN 04</div><div class="alt-name">Tostadas + tortilla + pavo</div><div class="alt-foods"><strong>Pan integral</strong> 4 rebanadas · <strong>4 huevos</strong> · <strong>Pavo</strong> 80g · <strong>Aguacate</strong> ½ · Tomate</div><div class="alt-macros"><div class="am"><span class="v">800</span><span class="l">kcal</span></div><div class="am"><span class="v">50g</span><span class="l">prot</span></div><div class="am"><span class="v">80g</span><span class="l">carbos</span></div><div class="am"><span class="v">28g</span><span class="l">grasa</span></div></div></div>
+  </div>
+  <div id="tab-pre" class="tab-content">
+    <div class="alt-card"><span class="tip star">⭐ Top</span><div class="alt-num">OPCIÓN 01</div><div class="alt-name">Arroz + Pollo clásico</div><div class="alt-foods"><strong>Arroz blanco</strong> 100g crudo · <strong>Pechuga pollo</strong> 150g · <strong>AOVE</strong> 10ml · Amilopectina 35g</div><div class="alt-macros"><div class="am"><span class="v">620</span><span class="l">kcal</span></div><div class="am"><span class="v">45g</span><span class="l">prot</span></div><div class="am"><span class="v">80g</span><span class="l">carbos</span></div><div class="am"><span class="v">12g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><span class="tip fast">Rápido</span><div class="alt-num">OPCIÓN 02</div><div class="alt-name">Pasta + Atún</div><div class="alt-foods"><strong>Pasta</strong> 90g cruda · <strong>Atún natural</strong> 2 latas · <strong>Tomate frito</strong> 80g · AOVE 10ml</div><div class="alt-macros"><div class="am"><span class="v">600</span><span class="l">kcal</span></div><div class="am"><span class="v">48g</span><span class="l">prot</span></div><div class="am"><span class="v">75g</span><span class="l">carbos</span></div><div class="am"><span class="v">10g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 03</div><div class="alt-name">Patata + Ternera picada</div><div class="alt-foods"><strong>Patata cocida</strong> 250g · <strong>Ternera 5%</strong> 150g · AOVE 10ml · Especias</div><div class="alt-macros"><div class="am"><span class="v">580</span><span class="l">kcal</span></div><div class="am"><span class="v">40g</span><span class="l">prot</span></div><div class="am"><span class="v">72g</span><span class="l">carbos</span></div><div class="am"><span class="v">14g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><span class="tip carb">Alto carbo</span><div class="alt-num">OPCIÓN 04</div><div class="alt-name">Wrap de pavo + fruta</div><div class="alt-foods"><strong>Tortilla integral</strong> x2 · <strong>Pavo</strong> 120g · <strong>Queso fresco</strong> 80g · <strong>Plátano</strong> · Miel 15g</div><div class="alt-macros"><div class="am"><span class="v">640</span><span class="l">kcal</span></div><div class="am"><span class="v">44g</span><span class="l">prot</span></div><div class="am"><span class="v">82g</span><span class="l">carbos</span></div><div class="am"><span class="v">16g</span><span class="l">grasa</span></div></div></div>
+  </div>
+  <div id="tab-post" class="tab-content">
+    <div class="alt-card"><span class="tip star">⭐ Top</span><div class="alt-num">OPCIÓN 01</div><div class="alt-name">Whey + arroz → Salmón + arroz</div><div class="alt-foods">Inmediato: <strong>Whey</strong> + <strong>Crema arroz</strong> 60g · 45min: <strong>Salmón</strong> 200g + <strong>Arroz</strong> 120g + Ensalada</div><div class="alt-macros"><div class="am"><span class="v">820</span><span class="l">kcal</span></div><div class="am"><span class="v">60g</span><span class="l">prot</span></div><div class="am"><span class="v">100g</span><span class="l">carbos</span></div><div class="am"><span class="v">18g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 02</div><div class="alt-name">Whey + arroz → Ternera + quinoa</div><div class="alt-foods">Inmediato: <strong>Whey</strong> + <strong>Crema arroz</strong> 60g · 45min: <strong>Ternera</strong> 200g + <strong>Quinoa</strong> 100g + Verduras</div><div class="alt-macros"><div class="am"><span class="v">840</span><span class="l">kcal</span></div><div class="am"><span class="v">62g</span><span class="l">prot</span></div><div class="am"><span class="v">95g</span><span class="l">carbos</span></div><div class="am"><span class="v">20g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><span class="tip fast">Rápido</span><div class="alt-num">OPCIÓN 03</div><div class="alt-name">Whey + arroz → Pollo + pasta</div><div class="alt-foods">Inmediato: <strong>Whey</strong> + <strong>Crema arroz</strong> 60g · 45min: <strong>Pollo</strong> 180g + <strong>Pasta</strong> 100g + Tomate</div><div class="alt-macros"><div class="am"><span class="v">810</span><span class="l">kcal</span></div><div class="am"><span class="v">58g</span><span class="l">prot</span></div><div class="am"><span class="v">102g</span><span class="l">carbos</span></div><div class="am"><span class="v">14g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 04</div><div class="alt-name">Whey + arroz → Merluza + batata</div><div class="alt-foods">Inmediato: <strong>Whey</strong> + <strong>Crema arroz</strong> 60g · 45min: <strong>Merluza</strong> 220g + <strong>Batata</strong> 200g + AOVE</div><div class="alt-macros"><div class="am"><span class="v">790</span><span class="l">kcal</span></div><div class="am"><span class="v">55g</span><span class="l">prot</span></div><div class="am"><span class="v">98g</span><span class="l">carbos</span></div><div class="am"><span class="v">15g</span><span class="l">grasa</span></div></div></div>
+  </div>
+  <div id="tab-mer" class="tab-content">
+    <div class="alt-card"><span class="tip star">⭐ Top</span><div class="alt-num">OPCIÓN 01</div><div class="alt-name">Yogur griego + frutos secos</div><div class="alt-foods"><strong>Yogur griego</strong> 200g · <strong>Frutos secos</strong> 30g · <strong>Manzana o pera</strong> · Omega-3 · Multi · Vit C</div><div class="alt-macros"><div class="am"><span class="v">450</span><span class="l">kcal</span></div><div class="am"><span class="v">20g</span><span class="l">prot</span></div><div class="am"><span class="v">35g</span><span class="l">carbos</span></div><div class="am"><span class="v">22g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><span class="tip fast">Rápido</span><div class="alt-num">OPCIÓN 02</div><div class="alt-name">Requesón + tortas de arroz</div><div class="alt-foods"><strong>Requesón</strong> 250g · <strong>Tortas de arroz</strong> 4 uds · <strong>Mermelada s/azúcar</strong> 30g · Fruta</div><div class="alt-macros"><div class="am"><span class="v">420</span><span class="l">kcal</span></div><div class="am"><span class="v">30g</span><span class="l">prot</span></div><div class="am"><span class="v">50g</span><span class="l">carbos</span></div><div class="am"><span class="v">10g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 03</div><div class="alt-name">Batido de volumen casero</div><div class="alt-foods"><strong>Leche entera</strong> 300ml · <strong>Plátano</strong> · <strong>Mantequilla cacahuete</strong> 30g · <strong>Avena</strong> 40g · Whey ½ scoop</div><div class="alt-macros"><div class="am"><span class="v">480</span><span class="l">kcal</span></div><div class="am"><span class="v">32g</span><span class="l">prot</span></div><div class="am"><span class="v">55g</span><span class="l">carbos</span></div><div class="am"><span class="v">16g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 04</div><div class="alt-name">Pan + pavo + aguacate</div><div class="alt-foods"><strong>Pan integral</strong> 3 rebanadas · <strong>Pavo</strong> 100g · <strong>Aguacate</strong> ½ · Tomate · AOVE 10ml</div><div class="alt-macros"><div class="am"><span class="v">430</span><span class="l">kcal</span></div><div class="am"><span class="v">28g</span><span class="l">prot</span></div><div class="am"><span class="v">42g</span><span class="l">carbos</span></div><div class="am"><span class="v">18g</span><span class="l">grasa</span></div></div></div>
+  </div>
+  <div id="tab-cen" class="tab-content">
+    <div class="alt-card"><span class="tip star">⭐ Top</span><div class="alt-num">OPCIÓN 01</div><div class="alt-name">Salmón + batata + ensalada</div><div class="alt-foods"><strong>Salmón</strong> 180g · <strong>Batata</strong> 200g · <strong>Ensalada grande</strong> · AOVE 15ml · Ashwagandha</div><div class="alt-macros"><div class="am"><span class="v">580</span><span class="l">kcal</span></div><div class="am"><span class="v">44g</span><span class="l">prot</span></div><div class="am"><span class="v">48g</span><span class="l">carbos</span></div><div class="am"><span class="v">22g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 02</div><div class="alt-name">Ternera + arroz + verduras</div><div class="alt-foods"><strong>Ternera 5%</strong> 200g · <strong>Arroz</strong> 80g · <strong>Brócoli + pimiento</strong> salteados · AOVE 10ml</div><div class="alt-macros"><div class="am"><span class="v">600</span><span class="l">kcal</span></div><div class="am"><span class="v">50g</span><span class="l">prot</span></div><div class="am"><span class="v">55g</span><span class="l">carbos</span></div><div class="am"><span class="v">16g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><span class="tip fast">Rápido</span><div class="alt-num">OPCIÓN 03</div><div class="alt-name">Tortilla de claras + avena</div><div class="alt-foods"><strong>8 claras + 2 huevos</strong> · <strong>Avena</strong> 60g con leche · Fruta de temporada · AOVE 10ml</div><div class="alt-macros"><div class="am"><span class="v">545</span><span class="l">kcal</span></div><div class="am"><span class="v">48g</span><span class="l">prot</span></div><div class="am"><span class="v">52g</span><span class="l">carbos</span></div><div class="am"><span class="v">14g</span><span class="l">grasa</span></div></div></div>
+    <div class="alt-card"><div class="alt-num">OPCIÓN 04</div><div class="alt-name">Pollo al horno + patata</div><div class="alt-foods"><strong>Muslo pollo sin piel</strong> 200g · <strong>Patata</strong> 180g · <strong>Ensalada variada</strong> · AOVE 15ml</div><div class="alt-macros"><div class="am"><span class="v">570</span><span class="l">kcal</span></div><div class="am"><span class="v">46g</span><span class="l">prot</span></div><div class="am"><span class="v">50g</span><span class="l">carbos</span></div><div class="am"><span class="v">18g</span><span class="l">grasa</span></div></div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 2: SUPLEMENTOS ═══════════════ -->
+<div class="chapter" id="suplementos">
+  <div class="chapter-num">02</div>
+  <div>
+    <div class="chapter-title">SUPLEMENTACIÓN <span>COMPLETA</span></div>
+    <div class="chapter-sub">Protocolo diario integrado con nutrición y sueño</div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-label">Todos los suplementos · cuándo y por qué</div>
+  <div class="supp-grid">
+    <div class="supp-card"><div class="supp-name">Creatina</div><div class="supp-dose">5g / día — siempre</div><div class="supp-when">Pre o intra-entreno. Días de descanso también. Sin fase de carga.</div></div>
+    <div class="supp-card"><div class="supp-name">Whey Proteína</div><div class="supp-dose">1 scoop post-entreno</div><div class="supp-when">Inmediato post-entreno con crema de arroz. Solo días de entrenamiento.</div></div>
+    <div class="supp-card"><div class="supp-name">Caseína</div><div class="supp-dose">1 scoop · 22:30</div><div class="supp-when">Todos los días antes de dormir. Días descanso: mezcla con yogur griego.</div></div>
+    <div class="supp-card"><div class="supp-name">Crema de Arroz</div><div class="supp-dose">60g post-entreno</div><div class="supp-when">Solo días de entrenamiento con el whey. No en días de descanso.</div></div>
+    <div class="supp-card"><div class="supp-name">Amilopectina</div><div class="supp-dose">35g pre-entreno</div><div class="supp-when">30 min antes de entrenar. Solo días de entrenamiento.</div></div>
+    <div class="supp-card"><div class="supp-name">Glutamina</div><div class="supp-dose">5g intra o post</div><div class="supp-when">Durante o después del entreno. Recuperación intestinal y muscular.</div></div>
+    <div class="supp-card"><div class="supp-name">Pre-entreno</div><div class="supp-dose">Según fabricante</div><div class="supp-when">20-30 min antes. Ciclar: 4 semanas ON / 1 semana OFF.</div></div>
+    <div class="supp-card"><div class="supp-name">Omega-3</div><div class="supp-dose">2-3 cápsulas / día</div><div class="supp-when">Con merienda o cena. Siempre con comida grasa. Todos los días.</div></div>
+    <div class="supp-card"><div class="supp-name">Ashwagandha</div><div class="supp-dose">500mg · con cena</div><div class="supp-when">Con la cena a las 21h. Necesita 90 min para actuar. Reduce cortisol nocturno.</div></div>
+    <div class="supp-card"><div class="supp-name">Vitamina C</div><div class="supp-dose">500-1000mg / día</div><div class="supp-when">Con merienda o almuerzo. Inmunidad y antioxidante. Todos los días.</div></div>
+    <div class="supp-card"><div class="supp-name">Multivitamínico</div><div class="supp-dose">1 toma / día</div><div class="supp-when">Con comida principal. Siempre con grasas para absorción liposoluble.</div></div>
+    <div class="supp-card"><div class="supp-name">Zinc</div><div class="supp-dose">1 toma · 22:30</div><div class="supp-when">Antes de dormir con la caseína. Testosterona nocturna y sistema inmune.</div></div>
+    <div class="supp-card"><div class="supp-name">Magnesio Citrato</div><div class="supp-dose">2 cápsulas · 22:30</div><div class="supp-when">Antes de dormir. Activa sistema parasimpático. Sueño profundo y recuperación.</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 3: SUEÑO ═══════════════ -->
+<div class="chapter" id="sueno">
+  <div class="chapter-num">03</div>
+  <div>
+    <div class="chapter-title">RUTINA DE <span>SUEÑO</span></div>
+    <div class="chapter-sub">8 horas · 23:00 → 07:00 · Recuperación muscular máxima</div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-label">Diagnóstico — por qué no duermes bien</div>
+  <div class="compare" style="margin-bottom:24px;">
+    <div class="compare-col">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--red);margin-bottom:10px;">⚠ PROBLEMA PRINCIPAL</div>
+      <div style="font-weight:600;font-size:14px;margin-bottom:6px;">Móvil + TV + videojuegos hasta las 23h</div>
+      <div style="font-size:12px;color:var(--dim);line-height:1.65;">La <strong style="color:var(--white);">luz azul suprime la melatonina 2-3 horas</strong>. Los videojuegos elevan dopamina y cortisol. Tu cerebro cree que es mediodía cuando intentas dormir.</div>
+    </div>
+    <div class="compare-col rc">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--red);margin-bottom:10px;">⚠ DESPERTARES NOCTURNOS</div>
+      <div style="font-weight:600;font-size:14px;margin-bottom:6px;">Cortisol nocturno elevado</div>
+      <div style="font-size:12px;color:var(--dim);line-height:1.65;">Si el cortisol no baja correctamente, el sueño es superficial. <strong style="color:var(--white);">El magnesio citrato y la ashwagandha</strong> son tu solución directa a esto.</div>
+    </div>
+  </div>
+
+  <div class="sec-label" style="margin-top:24px;">Protocolo nocturno paso a paso</div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">21:00</div><div class="tl">Cena</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Cena + Ashwagandha <span class="tag k">CLAVE</span></div>
+      <div class="tl-foods">Toma la <strong>ashwagandha aquí</strong> — necesita 90 min para reducir el cortisol. Primer paso para preparar el cuerpo. Evita comidas muy pesadas después de esta hora.</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">21:30</div><div class="tl">Límite</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Última hora con pantallas estimulantes <span class="tag s">STOP</span></div>
+      <div class="tl-foods">Corte máximo para <strong>videojuegos y redes sociales</strong>. Si ves series, activa <strong>modo nocturno + brillo mínimo</strong> en todos los dispositivos.</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:00</div><div class="tl">Wind down</div></div>
+    <div class="tl-body">
+      <div class="tl-name">🌿 Infusión + apagar pantallas <span class="tag p">RITUAL</span></div>
+      <div class="tl-foods"><strong>Manzanilla o Tilo</strong> — <strong>apaga todas las pantallas</strong>. Estiramientos suaves 10 min. Baja la calefacción a <strong>18-20°C</strong>. Lectura en papel si te apetece.</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:30</div><div class="tl">ZMA</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Stack nocturno ZMA + Caseína <span class="tag k">CLAVE</span></div>
+      <div class="tl-foods"><strong>Caseína</strong> 1 scoop · <strong>Zinc</strong> 1 toma · <strong>Magnesio citrato</strong> 2 cápsulas<br>El magnesio activa el sistema nervioso parasimpático. El zinc regula la testosterona nocturna.</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:45</div><div class="tl">Entorno</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Preparación del entorno <span class="tag p">HACER</span></div>
+      <div class="tl-foods">Habitación <strong>completamente oscura</strong> (antifaz si hay luz exterior) · <strong>Silencio o ruido blanco</strong> · <strong>18-20°C</strong> · Móvil en modo avión o fuera de la habitación.</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">22:55</div><div class="tl">Técnica</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Respiración 4-7-8 si no te duermes <span class="tag p">TÉCNICA</span></div>
+      <div class="tl-foods"><strong>Inhala 4 seg → Aguanta 7 seg → Exhala 8 seg.</strong> Repite 4 ciclos. Activa el nervio vago y baja la frecuencia cardíaca. Corta el bucle mental en menos de 3 minutos.</div>
+    </div>
+  </div>
+  <div class="tl-item" style="display:block;">
+    <div class="bar-sleep"><div class="bar-title">🌙 DORMIR · 23:00 → 07:00</div><div class="bar-sub">GH · Testosterona · Síntesis proteica · Recuperación completa</div></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-time pu"><div class="t">07:00</div><div class="tl">Despertar</div></div>
+    <div class="tl-body">
+      <div class="tl-name">Despertar consistente + luz solar <span class="tag k">CLAVE</span></div>
+      <div class="tl-foods"><strong>Levántate siempre a las 7:00</strong> — incluso fines de semana. Es la regla más importante. <strong>10 min de luz natural</strong> en los primeros 30 min resetea el reloj biológico y mejora el sueño de esa noche.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-label">🚫 Elimina esto — sabotean tu sueño</div>
+  <div class="grid3-auto">
+    <div class="g-card stop-card"><div class="g-card-title">Móvil en la cama</div><div class="g-card-body">Luz azul + scroll activo <strong>bloquean la melatonina 2-3h</strong>. Mayor saboteador del sueño moderno.</div></div>
+    <div class="g-card stop-card"><div class="g-card-title">Videojuegos después de las 21:30</div><div class="g-card-body">Elevan <strong>adrenalina y dopamina</strong>. El cerebro tarda 90 min en calmarse después.</div></div>
+    <div class="g-card stop-card"><div class="g-card-title">Cafeína después de las 15:00</div><div class="g-card-body">Vida media de <strong>6-8 horas</strong>. Un café a las 17h sigue activo a las 23h.</div></div>
+    <div class="g-card stop-card"><div class="g-card-title">Habitación caliente</div><div class="g-card-body">Temperatura superior a 21°C <strong>impide la bajada corporal</strong> necesaria para sueño profundo.</div></div>
+    <div class="g-card stop-card"><div class="g-card-title">Alcohol por la noche</div><div class="g-card-body">Parece que ayuda pero <strong>fragmenta el sueño REM</strong> — la fase de recuperación muscular.</div></div>
+    <div class="g-card stop-card"><div class="g-card-title">Horario irregular</div><div class="g-card-body">Dormir y levantarte a horas distintas cada día <strong>destruye el ritmo circadiano</strong> completamente.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-label">✅ Hábitos que transforman el sueño</div>
+  <div class="grid3-auto">
+    <div class="g-card do-card"><div class="g-card-title">Gafas de luz azul</div><div class="g-card-body">Si no puedes evitar pantallas, úsalas desde las 20h. <strong>Bloquean el 90% de la luz azul</strong>.</div></div>
+    <div class="g-card do-card"><div class="g-card-title">Ducha templada-fría</div><div class="g-card-body">Baja la temperatura corporal rápido — <strong>señal directa al cerebro</strong> de que es hora de dormir.</div></div>
+    <div class="g-card do-card"><div class="g-card-title">Estiramientos 10 min</div><div class="g-card-body">Reduce tensión muscular acumulada y <strong>activa el sistema nervioso parasimpático</strong>.</div></div>
+    <div class="g-card do-card"><div class="g-card-title">Oscuridad total</div><div class="g-card-body">Incluso pequeñas fuentes de luz interrumpen la melatonina. <strong>Antifaz o persianas opacas.</strong></div></div>
+    <div class="g-card do-card"><div class="g-card-title">Lectura en papel</div><div class="g-card-body">20 min de lectura en papel <strong>reduce el tiempo para dormirse un 39%</strong> vs pantallas.</div></div>
+    <div class="g-card do-card"><div class="g-card-title">Ruido blanco</div><div class="g-card-body">Lluvia, ventilador o app Calm — <strong>enmascara ruidos</strong> que causan microdespertares nocturnos.</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 4: INFUSIONES ═══════════════ -->
+<div class="chapter" id="infusiones">
+  <div class="chapter-num">04</div>
+  <div>
+    <div class="chapter-title">INFUSIONES Y <span>PLANTAS</span></div>
+    <div class="chapter-sub">Mañana · Tarde · Noche — integradas en tu rutina</div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-label">🌿 Infusiones nocturnas — favorecen el sueño</div>
+  <div class="inf-grid">
+    <div class="inf-card">
+      <div class="inf-name">Manzanilla ⭐</div>
+      <div class="inf-when">22:00 · Noche · Recomendada</div>
+      <div class="inf-why">La más respaldada para el sueño. <strong>Reduce ansiedad y mejora el sueño profundo</strong>. Perfecta con el ritual de apagar pantallas. Tómala 60 min antes de dormir.</div>
+    </div>
+    <div class="inf-card">
+      <div class="inf-name">Tilo ⭐</div>
+      <div class="inf-when">22:00 · Noche · Recomendada</div>
+      <div class="inf-why">Clásico español para el sistema nervioso. <strong>Efecto calmante y relajante</strong> suave. Ideal si la manzanilla no te gusta. Alterna ambas.</div>
+    </div>
+    <div class="inf-card">
+      <div class="inf-name">Valeriana</div>
+      <div class="inf-when">22:00 · Si problemas persisten</div>
+      <div class="inf-why">Más potente que manzanilla. <strong>Tarda varios días en acumularse</strong> pero reduce el tiempo para dormirse significativamente. Úsala si los primeros cambios no son suficientes.</div>
+    </div>
+    <div class="inf-card">
+      <div class="inf-name">Pasiflora</div>
+      <div class="inf-when">22:00 · Si hay bucle mental</div>
+      <div class="inf-why">Ideal si tu problema es <strong>pensamientos que no paran</strong> al acostarte. Actúa sobre el GABA, complementa bien al magnesio. Para noches de mucho estrés.</div>
+    </div>
+  </div>
+
+  <div class="sec-label" style="margin-top:28px;">☀️ Infusiones de mañana — energía y articulaciones</div>
+  <div class="inf-grid">
+    <div class="inf-card morning">
+      <div class="inf-name">Té Verde</div>
+      <div class="inf-when">07:00–10:00 · Mañana únicamente</div>
+      <div class="inf-why">Contiene cafeína — <strong>nunca por la tarde-noche</strong>. Por la mañana aporta energía suave + antioxidantes. Perfecto antes del desayuno o pre-entreno.</div>
+    </div>
+    <div class="inf-card morning">
+      <div class="inf-name">Cola de Caballo</div>
+      <div class="inf-when">07:00–12:00 · Mañana</div>
+      <div class="inf-why"><strong>Diurética y remineralizante</strong> — excelente para articulaciones y tejido conectivo, clave con tu volumen de entrenamiento. No la tomes por la noche: puede despertarte para orinar.</div>
+    </div>
+    <div class="inf-card morning">
+      <div class="inf-name">Jengibre + Limón</div>
+      <div class="inf-when">Mañana · Opcional</div>
+      <div class="inf-why">Antiinflamatorio natural, <strong>apoya la recuperación muscular</strong> y el sistema digestivo. Buena opción en semanas de alto volumen de entrenamiento.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 5: REGLAS ═══════════════ -->
+<div class="chapter" id="reglas">
+  <div class="chapter-num">05</div>
+  <div>
+    <div class="chapter-title">REGLAS <span>MAESTRAS</span></div>
+    <div class="chapter-sub">Nutrición · Sueño · Progresión</div>
+  </div>
+</div>
+
+<section>
+  <div class="grid3">
+    <div class="g-card"><div class="g-card-n">01</div><div class="g-card-title">Pesate cada lunes en ayunas</div><div class="g-card-body">Objetivo: <strong>+0,3 a +0,5 kg/mes</strong>. Más rápido = grasa. Más lento = sube 150 kcal de carbos.</div></div>
+    <div class="g-card"><div class="g-card-n">02</div><div class="g-card-title">Proteína es innegociable</div><div class="g-card-body">Si comes poco un día, prioriza los <strong>176g de proteína</strong> por encima de todo.</div></div>
+    <div class="g-card"><div class="g-card-n">03</div><div class="g-card-title">Carbos alrededor del entreno</div><div class="g-card-body">Desayuno, pre y post-entreno concentran <strong>el 65% de los carbos</strong> del día.</div></div>
+    <div class="g-card"><div class="g-card-n pu">04</div><div class="g-card-title">Pantallas off a las 22:00</div><div class="g-card-body">El cambio con mayor impacto inmediato en tu sueño. <strong>En 5-7 días ya notarás la diferencia.</strong></div></div>
+    <div class="g-card"><div class="g-card-n pu">05</div><div class="g-card-title">ZMA + Caseína a las 22:30</div><div class="g-card-body"><strong>Zinc + Magnesio + Caseína</strong> todos los días. El stack que protege músculo y mejora sueño profundo.</div></div>
+    <div class="g-card"><div class="g-card-n pu">06</div><div class="g-card-title">Levántate siempre a las 7:00</div><div class="g-card-body">Aunque hayas dormido mal. <strong>Ancla el ritmo circadiano</strong> — en 2 semanas te dormirás antes.</div></div>
+    <div class="g-card"><div class="g-card-n">07</div><div class="g-card-title">3 litros de agua mínimo</div><div class="g-card-body">La creatina y el volumen de entrenamiento lo exigen. <strong>Hidrátate siempre.</strong></div></div>
+    <div class="g-card"><div class="g-card-n">08</div><div class="g-card-title">Evalúa cada 4-6 semanas</div><div class="g-card-body">Sin subir: +150 kcal carbos. Subiendo rápido: -200 kcal. <strong>Ajusta, no abandones.</strong></div></div>
+    <div class="g-card"><div class="g-card-n pu">09</div><div class="g-card-title">Luz natural al despertar</div><div class="g-card-body"><strong>10 min de sol en los primeros 30 min</strong> del día. Resetea el reloj biológico cada mañana.</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ CAP 6: LISTA COMPRA ═══════════════ -->
+<div class="chapter" id="compra">
+  <div class="chapter-num">06</div>
+  <div>
+    <div class="chapter-title">LISTA DE LA <span>COMPRA</span></div>
+    <div class="chapter-sub">Cantidades semanales · 6 días entreno + 1 descanso</div>
+  </div>
+</div>
+
+<section style="padding-bottom:0;">
+  <div style="display:grid;gap:1px;background:var(--border);border:1px solid var(--border);">
+
+    <div class="shop-cat">
+      <div class="shop-cat-label" style="color:#f87171;">🥩 Proteínas</div>
+      <div class="shop-items">
+        <div class="shop-item" style="border-left:2px solid #f87171;"><div class="shop-item-name">Pechuga de pollo</div><div class="shop-item-qty" style="color:#f87171;">~1.8 kg</div><div class="shop-item-note">Pre-entreno + cenas</div></div>
+        <div class="shop-item" style="border-left:2px solid #f87171;"><div class="shop-item-name">Salmón fresco</div><div class="shop-item-qty" style="color:#f87171;">~800g</div><div class="shop-item-note">Post-entreno y cenas · comprar 2x/sem</div></div>
+        <div class="shop-item" style="border-left:2px solid #f87171;"><div class="shop-item-name">Ternera (5% grasa)</div><div class="shop-item-qty" style="color:#f87171;">~800g</div><div class="shop-item-note">Almuerzo y cenas alternas</div></div>
+        <div class="shop-item" style="border-left:2px solid #f87171;"><div class="shop-item-name">Merluza / Pescado blanco</div><div class="shop-item-qty" style="color:#f87171;">~600g</div><div class="shop-item-note">Cenas ligeras</div></div>
+        <div class="shop-item" style="border-left:2px solid #f87171;"><div class="shop-item-name">Atún al natural (latas)</div><div class="shop-item-qty" style="color:#f87171;">6–8 latas</div><div class="shop-item-note">Opción rápida pre-entreno</div></div>
+        <div class="shop-item" style="border-left:2px solid #f87171;"><div class="shop-item-name">Huevos</div><div class="shop-item-qty" style="color:#f87171;">18–24 uds</div><div class="shop-item-note">Desayuno diario</div></div>
+        <div class="shop-item" style="border-left:2px solid #f87171;"><div class="shop-item-name">Pavo loncheado (+90%)</div><div class="shop-item-qty" style="color:#f87171;">~400g</div><div class="shop-item-note">Meriendas y wraps</div></div>
+      </div>
+    </div>
+
+    <div class="shop-cat">
+      <div class="shop-cat-label" style="color:var(--blue);">🥛 Lácteos</div>
+      <div class="shop-items">
+        <div class="shop-item" style="border-left:2px solid var(--blue);"><div class="shop-item-name">Leche entera</div><div class="shop-item-qty" style="color:var(--blue);">~2.5 L</div><div class="shop-item-note">Desayuno (300ml/día)</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--blue);"><div class="shop-item-name">Yogur griego natural</div><div class="shop-item-qty" style="color:var(--blue);">~1.4 kg</div><div class="shop-item-note">Meriendas + caseína descanso</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--blue);"><div class="shop-item-name">Requesón</div><div class="shop-item-qty" style="color:var(--blue);">~500g</div><div class="shop-item-note">Alternativa merienda</div></div>
+      </div>
+    </div>
+
+    <div class="shop-cat">
+      <div class="shop-cat-label" style="color:var(--gold);">🌾 Carbohidratos</div>
+      <div class="shop-items">
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Arroz blanco</div><div class="shop-item-qty" style="color:var(--gold);">~1.5 kg</div><div class="shop-item-note">Pre y post-entreno</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Avena</div><div class="shop-item-qty" style="color:var(--gold);">~700g</div><div class="shop-item-note">Desayuno diario</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Batata / Boniato</div><div class="shop-item-qty" style="color:var(--gold);">~1.5 kg</div><div class="shop-item-note">Cenas días de entreno</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Patata</div><div class="shop-item-qty" style="color:var(--gold);">~1 kg</div><div class="shop-item-note">Alternativa pre-entreno</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Pasta integral</div><div class="shop-item-qty" style="color:var(--gold);">~500g</div><div class="shop-item-note">Alternativa pre-entreno</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Pan integral 100%</div><div class="shop-item-qty" style="color:var(--gold);">1 barra</div><div class="shop-item-note">Desayunos y meriendas</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Tortas de arroz</div><div class="shop-item-qty" style="color:var(--gold);">1 paquete</div><div class="shop-item-note">Meriendas rápidas</div></div>
+      </div>
+    </div>
+
+    <div class="shop-cat">
+      <div class="shop-cat-label" style="color:var(--green);">🥦 Frutas y Verduras</div>
+      <div class="shop-items">
+        <div class="shop-item" style="border-left:2px solid var(--green);"><div class="shop-item-name">Plátanos</div><div class="shop-item-qty" style="color:var(--green);">8–10 uds</div><div class="shop-item-note">Desayuno y merienda</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--green);"><div class="shop-item-name">Manzanas / Peras</div><div class="shop-item-qty" style="color:var(--green);">5–6 uds</div><div class="shop-item-note">Meriendas</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--green);"><div class="shop-item-name">Aguacate</div><div class="shop-item-qty" style="color:var(--green);">3–4 uds</div><div class="shop-item-note">Desayuno alternativo</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--green);"><div class="shop-item-name">Brócoli / Judías verdes</div><div class="shop-item-qty" style="color:var(--green);">~800g</div><div class="shop-item-note">Almuerzos y cenas</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--green);"><div class="shop-item-name">Tomate / Pimiento</div><div class="shop-item-qty" style="color:var(--green);">~600g</div><div class="shop-item-note">Ensaladas y salteados</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--green);"><div class="shop-item-name">Lechuga / Rúcula</div><div class="shop-item-qty" style="color:var(--green);">2 bolsas</div><div class="shop-item-note">Ensaladas diarias</div></div>
+      </div>
+    </div>
+
+    <div class="shop-cat">
+      <div class="shop-cat-label" style="color:var(--orange);">🫒 Grasas y Otros</div>
+      <div class="shop-items">
+        <div class="shop-item" style="border-left:2px solid var(--orange);"><div class="shop-item-name">Aceite oliva virgen extra</div><div class="shop-item-qty" style="color:var(--orange);">~200 ml</div><div class="shop-item-note">10-15ml por comida</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--orange);"><div class="shop-item-name">Frutos secos (mix)</div><div class="shop-item-qty" style="color:var(--orange);">~200g</div><div class="shop-item-note">Meriendas (30g/día)</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--orange);"><div class="shop-item-name">Mantequilla de cacahuete</div><div class="shop-item-qty" style="color:var(--orange);">1 bote</div><div class="shop-item-note">Batidos y meriendas</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--orange);"><div class="shop-item-name">Granola (sin azúcar)</div><div class="shop-item-qty" style="color:var(--orange);">~250g</div><div class="shop-item-note">Desayuno bowl griego</div></div>
+      </div>
+    </div>
+
+    <div class="shop-cat">
+      <div class="shop-cat-label" style="color:var(--purple);">🌿 Infusiones</div>
+      <div class="shop-items">
+        <div class="shop-item" style="border-left:2px solid var(--purple);"><div class="shop-item-name">Manzanilla</div><div class="shop-item-qty" style="color:var(--purple);">1 caja</div><div class="shop-item-note">Noche · infusión ritual 22:00</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--purple);"><div class="shop-item-name">Tilo</div><div class="shop-item-qty" style="color:var(--purple);">1 caja</div><div class="shop-item-note">Noche · alternativa manzanilla</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Té Verde</div><div class="shop-item-qty" style="color:var(--gold);">1 caja</div><div class="shop-item-note">Solo mañana — tiene cafeína</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--gold);"><div class="shop-item-name">Cola de Caballo</div><div class="shop-item-qty" style="color:var(--gold);">1 caja</div><div class="shop-item-note">Mañana · articulaciones</div></div>
+      </div>
+    </div>
+
+    <div class="shop-cat">
+      <div class="shop-cat-label" style="color:var(--dim);">💊 Suplementos · Stock mensual</div>
+      <div class="shop-items">
+        <div class="shop-item" style="border-left:2px solid var(--dim);"><div class="shop-item-name">Whey Proteína</div><div class="shop-item-qty">~750g</div><div class="shop-item-note">1 scoop x 6 días/sem</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--dim);"><div class="shop-item-name">Caseína</div><div class="shop-item-qty">~840g</div><div class="shop-item-note">1 scoop x 7 días/sem</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--dim);"><div class="shop-item-name">Creatina monohidrato</div><div class="shop-item-qty">~140g</div><div class="shop-item-note">5g x 7 días = 35g/sem</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--dim);"><div class="shop-item-name">Crema de arroz</div><div class="shop-item-qty">~400g</div><div class="shop-item-note">60g x 6 días entreno</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--dim);"><div class="shop-item-name">Amilopectina</div><div class="shop-item-qty">~210g</div><div class="shop-item-note">35g x 6 días entreno</div></div>
+        <div class="shop-item" style="border-left:2px solid var(--dim);"><div class="shop-item-name">Glutamina</div><div class="shop-item-qty">~210g</div><div class="shop-item-note">5g x 6 días/sem</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="notes-box" style="margin-top:1px;">
+    <div class="sec-label">Notas de compra</div>
+    <ul>
+      <li><strong>Compra el pescado fresco 2 veces por semana</strong> para mantener frescura. El atún en lata es el comodín para días sin tiempo.</li>
+      <li><strong>Congela pollo y ternera en raciones</strong> de 150-200g. Ahorra tiempo entre semana y dinero comprando en mayor cantidad.</li>
+      <li><strong>Los suplementos</strong> están en cantidades semanales — multiplica x4 para el stock mensual.</li>
+      <li><strong>Las infusiones</strong> duran varias semanas — no necesitas reponerlas cada semana.</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  const navLinks = document.querySelectorAll('nav a');
+  const allSections = document.querySelectorAll('section[id], div[id].hero, div[id].chapter');
+
+  window.addEventListener('scroll', () => {
+    let current = 'inicio';
+    document.querySelectorAll('[id]').forEach(el => {
+      if (window.scrollY >= el.offsetTop - 100) current = el.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active-link');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active-link');
+    });
+  });
+</script>
+
+</body>
+</html>

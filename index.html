@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dani</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:  #090909;
+    --white:  #f4f3ef;
+    --accent: #c8ff00;
+    --dim:    #606060;
+    --border: #222;
+    --card:   #181818;
+    --card2:  #202020;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    overflow-x: hidden;
+  }
+
+  /* ── CANVAS FONDO ── */
+  #bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* ── ORBS CSS ── */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: -1;
+  }
+  body::before {
+    width: 600px; height: 600px;
+    background: var(--accent);
+    top: -200px; left: -200px;
+    animation: orbA 14s ease-in-out infinite alternate;
+  }
+  body::after {
+    width: 500px; height: 500px;
+    background: #00d4ff;
+    bottom: -150px; right: -150px;
+    animation: orbB 18s ease-in-out infinite alternate;
+  }
+  @keyframes orbA {
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(120px,80px) scale(1.15); }
+    100% { transform: translate(40px,160px) scale(0.95); }
+  }
+  @keyframes orbB {
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(-100px,-60px) scale(1.2); }
+    100% { transform: translate(-40px,-140px) scale(0.9); }
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    width: 100vw;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 0;
+    margin-bottom: 40px;
+    background: rgba(200,255,0,0.02);
+  }
+  .ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 22s linear infinite;
+  }
+  .ticker-track span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    opacity: 0.6;
+    padding: 0 32px;
+  }
+  .ticker-track span.dot {
+    color: var(--dim);
+    padding: 0 4px;
+    opacity: 0.4;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── PERFIL ── */
+  .avatar {
+    width: 92px; height: 92px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    overflow: hidden;
+    box-shadow: 0 0 0 0 rgba(200,255,0,0.4);
+    animation: pulse-avatar 3s ease-in-out infinite, fadeDown 0.6s ease both;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  @keyframes pulse-avatar {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,255,0,0.15); }
+    50%       { box-shadow: 0 0 0 10px rgba(200,255,0,0); }
+  }
+
+  .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 10vw, 64px);
+    letter-spacing: 4px;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 6px;
+    animation: fadeDown 0.6s 0.1s ease both;
+  }
+  .name em { color: var(--accent); font-style: normal; }
+
+  .bio {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 10px;
+    animation: fadeDown 0.6s 0.2s ease both;
+  }
+
+  /* ── CONTADOR ── */
+  .counter-row {
+    display: flex;
+    gap: 28px;
+    margin: 18px 0 36px;
+    animation: fadeDown 0.6s 0.3s ease both;
+  }
+  .counter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .counter-item .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .counter-item .lbl {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .counter-sep {
+    width: 1px;
+    background: var(--border);
+    align-self: stretch;
+    margin: 4px 0;
+  }
+
+  /* ── LINKS ── */
+  .links {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 22px;
+    text-decoration: none;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .link-btn:hover {
+    background: var(--card2);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .link-btn:active { transform: translateY(0); }
+
+  /* stagger entrada */
+  .link-btn:nth-child(1)  { animation-delay: 0.35s; }
+  .link-btn:nth-child(2)  { animation-delay: 0.45s; }
+  .link-btn:nth-child(3)  { animation-delay: 0.55s; }
+  .link-btn:nth-child(4)  { animation-delay: 0.65s; }
+  .link-btn:nth-child(5)  { animation-delay: 0.75s; }
+  .link-btn:nth-child(6)  { animation-delay: 0.85s; }
+  .link-btn:nth-child(7)  { animation-delay: 0.95s; }
+  .link-btn:nth-child(8)  { animation-delay: 1.05s; }
+
+  .link-btn .icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .link-btn .label {
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+  }
+  .link-btn .arrow {
+    font-size: 16px;
+    color: var(--dim);
+    transition: color 0.15s;
+  }
+  .link-btn:hover .arrow { color: var(--accent); }
+
+  /* colores por red */
+  .ig   .icon { background: #1a1a2e; color: #e1306c; }
+  .of   .icon { background: #1a1008; color: #00aff0; }
+  .x    .icon { background: #111;    color: var(--white); }
+  .plan .icon { background: #1a1f08; color: var(--accent); }
+  .tg   .icon { background: #0d1a1f; color: #29a7e4; }
+  .tt   .icon { background: #1a0d1a; color: #ff0050; }
+  .pp   .icon { background: #0d1220; color: #009cde; }
+  .wa   .icon { background: #0d1a0f; color: #25d366; }
+  .game .icon { background: #14101f; color: #a78bfa; }
+
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #f87171;
+    text-transform: uppercase;
+    border: 1.5px solid #f87171;
+    border-radius: 3px;
+    padding: 3px 7px;
+    line-height: 1;
+    flex-shrink: 0;
+    text-shadow: 0 0 8px #f8717188;
+    box-shadow: 0 0 8px #f8717133;
+  }
+
+  /* ── DIVISOR ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.9s ease forwards;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 56px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--border);
+    text-transform: uppercase;
+    animation: fadeDown 0.6s 1.1s ease both;
+    opacity: 0;
+  }
+
+  /* ── ANIMACIONES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+  <canvas id="bg"></canvas>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span>DESARROLLADOR DE VIDEOJUEGOS</span><span class="dot">·</span>
+      <span>NUEVO CONTENIDO CADA SEMANA</span><span class="dot">·</span>
+      <span>ÚNETE AL GRUPO</span><span class="dot">·</span>
+      <span>+18</span><span class="dot">·</span>
+      <span>SÍGUEME EN TODAS MIS REDES</span><span class="dot">·</span>
+      <span>DESARROLLADOR DE VIDEOJUEGOS</span><span class="dot">·</span>
+      <span>NUEVO CONTENIDO CADA SEMANA</span><span class="dot">·</span>
+      <span>ÚNETE AL GRUPO</span><span class="dot">·</span>
+      <span>+18</span><span class="dot">·</span>
+      <span>SÍGUEME EN TODAS MIS REDES</span><span class="dot">·</span>
+    </div>
+  </div>
+
+  <div class="avatar">D</div>
+
+  <h1 class="name">DA<em>NI</em></h1>
+  <p class="bio">· desarrollador de videojuegos ·</p>
+
+  <!-- CONTADOR -->
+  <div class="counter-row">
+    <div class="counter-item">
+      <span class="num" data-target="5">0</span>
+      <span class="lbl">Redes</span>
+    </div>
+    <div class="counter-sep"></div>
+    <div class="counter-item">
+      <span class="num" data-target="18">0</span>
+      <span class="lbl">Solo +18</span>
+    </div>
+    <div class="counter-sep"></div>
+    <div class="counter-item">
+      <span class="num" data-target="100">0</span>
+      <span class="lbl">% Dani</span>
+    </div>
+  </div>
+
+  <div class="links">
+
+    <!-- ONLYFANS -->
+    <a class="link-btn of" href="https://onlyfans.com/danigm1992" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </span>
+      <span class="label">OnlyFans 🔥 Contenido exclusivo</span>
+      <span class="badge">+18</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <!-- INSTAGRAM -->
+    <a class="link-btn ig" href="https://instagram.com/danigm1992" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4.5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="label">Instagram · Aquí me porto bien</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <!-- X / TWITTER -->
+    <a class="link-btn x" href="https://x.com/danigm1992_" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </span>
+      <span class="label">X · Twitter · Lo que no ves</span>
+      <span class="badge">+18</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <!-- TIKTOK -->
+    <a class="link-btn tt" href="https://tiktok.com/@danigm1992" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+        </svg>
+      </span>
+      <span class="label">TikTok · Sígueme</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <!-- TELEGRAM -->
+    <a class="link-btn tg" href="https://t.me/danigm92" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 13.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
+        </svg>
+      </span>
+      <span class="label">Telegram · El grupo · Sin filtros 🔥</span>
+      <span class="badge">+18</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <!-- PAYPAL -->
+    <a class="link-btn pp" href="https://paypal.me/danielgomezmasa" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082H9.825l-1.225 7.76h3.222c.459 0 .85-.334.922-.787l.756-4.802h2.062c4.017 0 6.386-1.987 7.22-5.93.34-1.616.156-2.795-.56-4.036z"/>
+        </svg>
+      </span>
+      <span class="label">PayPal · Donaciones</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <div class="divider"></div>
+
+    <!-- PLAN MAESTRO -->
+    <a class="link-btn plan" href="protocol.html" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="9" y1="13" x2="15" y2="13"/>
+          <line x1="9" y1="17" x2="12" y2="17"/>
+        </svg>
+      </span>
+      <span class="label">Mi Plan · Entreno / Dieta / Sueño</span>
+      <span class="arrow">→</span>
+    </a>
+
+  </div>
+
+  <footer>© dani</footer>
+
+<script>
+  /* ── CANVAS ── */
+  const canvas = document.getElementById('bg');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  function initParticles() {
+    particles = Array.from({ length: 55 }, () => ({
+      x:     Math.random() * W,
+      y:     Math.random() * H,
+      r:     Math.random() * 1.4 + 0.3,
+      vx:    (Math.random() - 0.5) * 0.25,
+      vy:    -(Math.random() * 0.35 + 0.1),
+      alpha: Math.random() * 0.45 + 0.08,
+      hue:   Math.random() < 0.7 ? 'rgba(200,255,0,' : 'rgba(0,212,255,'
+    }));
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(255,255,255,0.018)';
+    const step = 38;
+    for (let x = 0; x < W; x += step)
+      for (let y = 0; y < H; y += step)
+        ctx.fillRect(x, y, 1, 1);
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.hue + p.alpha + ')';
+      ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      if (p.y < -4)  p.y = H + 4;
+      if (p.x < -4)  p.x = W + 4;
+      if (p.x > W+4) p.x = -4;
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+  resize(); initParticles(); draw();
+
+  /* ── CONTADOR ANIMADO ── */
+  function animateCounter(el) {
+    const target = +el.dataset.target;
+    const duration = 1200;
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(ease * target);
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const counters = document.querySelectorAll('.num[data-target]');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); observer.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  counters.forEach(c => observer.observe(c));
+</script>
+
+</body>
+</html>
