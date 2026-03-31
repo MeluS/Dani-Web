@@ -58,10 +58,70 @@
   .hero-stat { text-align: right; }
   .hero-stat .v { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--accent); line-height: 1; }
   .hero-stat .l { font-size: 10px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
+  .hero-hevy {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 16px 30px 4px;
+  }
 
   /* SECTION */
   section { max-width: 1000px; margin: 0 auto; padding: 48px 30px 0; }
   .sec-label { font-size: 10px; letter-spacing: 4px; color: var(--dim); text-transform: uppercase; margin-bottom: 20px; }
+  .hevy-note {
+    margin: 0;
+    padding: 16px 18px;
+    background:
+      linear-gradient(140deg, rgba(200,255,0,0.2) 0%, rgba(0,212,255,0.16) 45%, rgba(200,255,0,0.1) 100%),
+      var(--card2);
+    border: 1px solid rgba(200,255,0,0.5);
+    border-left: 6px solid var(--accent);
+    box-shadow: 0 0 0 1px rgba(200,255,0,0.12) inset, 0 12px 28px rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    animation: hevyPulse 2.6s ease-in-out infinite;
+  }
+  .hevy-note p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--white);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  .hevy-note p strong {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    font-size: 11px;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+  .hevy-note a {
+    color: var(--black);
+    background: var(--accent);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 14px;
+    border: 1px solid rgba(9,9,9,0.5);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    white-space: nowrap;
+  }
+  .hevy-note a:hover {
+    background: #e8ff6f;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(200,255,0,0.34);
+  }
+
+  @keyframes hevyPulse {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(200,255,0,0.12) inset, 0 12px 28px rgba(0,0,0,0.35); }
+    50% { box-shadow: 0 0 0 1px rgba(200,255,0,0.2) inset, 0 12px 34px rgba(200,255,0,0.2); }
+  }
 
   /* CHAPTER HEADER */
   .chapter {
@@ -209,12 +269,15 @@
     .hero { flex-direction:column; align-items:flex-start; padding:36px 16px; }
     .hero-stats { align-items:flex-start; flex-direction:row; flex-wrap:wrap; gap:14px; }
     .hero-stat { text-align:left; }
+    .hero-hevy { padding: 10px 16px 0; }
     section { padding:36px 16px 0; }
     .chapter { padding:20px 16px; }
     .macro-grid { grid-template-columns:repeat(2,1fr); }
     .compare { grid-template-columns:1fr; }
     .tl-item { grid-template-columns:72px 1fr; }
     .grid3 { grid-template-columns:1fr; }
+    .hevy-note { padding: 14px; }
+    .hevy-note a { width: 100%; text-align: center; }
   }
 </style>
 </head>
@@ -246,6 +309,13 @@
     <div class="hero-stat"><div class="v">3.120 kcal</div><div class="l">Día entreno</div></div>
     <div class="hero-stat"><div class="v">2.600 kcal</div><div class="l">Día descanso</div></div>
     <div class="hero-stat"><div class="v">+0.3–0.5kg/mes</div><div class="l">Objetivo</div></div>
+  </div>
+</div>
+
+<div class="hero-hevy">
+  <div class="hevy-note">
+    <p><strong>HEVY</strong><br>¿Quieres ver mis entrenos reales y mi progreso semana a semana?</p>
+    <a href="https://hevy.com/user/danigm1992" target="_blank" rel="noopener noreferrer">Sigueme en mi perfil</a>
   </div>
 </div>
 
