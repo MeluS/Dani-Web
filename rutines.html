@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Rutinas – Dani</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:  #090909;
+    --white:  #f4f3ef;
+    --accent: #c8ff00;
+    --dim:    #606060;
+    --border: #222;
+    --card:   #181818;
+    --card2:  #202020;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 20px 60px;
+    overflow-x: hidden;
+  }
+
+  /* ── ORBS CSS ── */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: -1;
+  }
+  body::before {
+    width: 600px; height: 600px;
+    background: var(--accent);
+    top: -200px; left: -200px;
+    animation: orbA 14s ease-in-out infinite alternate;
+  }
+  body::after {
+    width: 500px; height: 500px;
+    background: #00d4ff;
+    bottom: -150px; right: -150px;
+    animation: orbB 18s ease-in-out infinite alternate;
+  }
+  @keyframes orbA {
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(120px,80px) scale(1.15); }
+    100% { transform: translate(40px,160px) scale(0.95); }
+  }
+  @keyframes orbB {
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(-100px,-60px) scale(1.2); }
+    100% { transform: translate(-40px,-140px) scale(0.9); }
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    z-index: 50;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 0;
+    background: rgba(9,9,9,0.97);
+    backdrop-filter: blur(10px);
+  }
+
+  /* ── SPACER BAJO TICKER ── */
+  .ticker-spacer {
+    height: 40px;
+    flex-shrink: 0;
+  }
+  .ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 22s linear infinite;
+  }
+  .ticker-track span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    opacity: 0.6;
+    padding: 0 32px;
+  }
+  .ticker-track span.dot {
+    color: var(--dim);
+    padding: 0 4px;
+    opacity: 0.4;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── BACK ── */
+  .back-link {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 24px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.15s;
+    z-index: 10;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  /* ── TÍTULO ── */
+  .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 10vw, 64px);
+    letter-spacing: 4px;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 6px;
+    animation: fadeDown 0.6s 0.1s ease both;
+  }
+  .name em { color: var(--accent); font-style: normal; }
+
+  .bio {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 36px;
+    animation: fadeDown 0.6s 0.2s ease both;
+  }
+
+  /* ── LISTA RUTINAS ── */
+  .rutines {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sec-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    animation: fadeDown 0.5s 0.25s ease both;
+    opacity: 0;
+  }
+
+  /* ── TARJETA RUTINA ── */
+  .rutine-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 22px;
+    text-decoration: none;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .rutine-card:hover {
+    background: var(--card2);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .rutine-card:active { transform: translateY(0); }
+
+  /* stagger */
+  .rutine-card:nth-child(1) { animation-delay: 0.35s; }
+  .rutine-card:nth-child(2) { animation-delay: 0.45s; }
+  .rutine-card:nth-child(3) { animation-delay: 0.55s; }
+  .rutine-card:nth-child(4) { animation-delay: 0.65s; }
+  .rutine-card:nth-child(5) { animation-delay: 0.75s; }
+
+  .rutine-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--border);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 28px;
+    text-align: center;
+  }
+
+  .rutine-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .rutine-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .rutine-meta {
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 1px;
+  }
+
+  .rutine-badge {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    border: 1.5px solid rgba(200,255,0,0.25);
+    border-radius: 3px;
+    padding: 3px 7px;
+    line-height: 1;
+    flex-shrink: 0;
+    background: rgba(200,255,0,0.06);
+  }
+
+  .rutine-arrow {
+    font-size: 16px;
+    color: var(--dim);
+    transition: color 0.15s;
+    flex-shrink: 0;
+  }
+  .rutine-card:hover .rutine-arrow { color: var(--accent); }
+
+  /* ── TARJETA ACTIVA (primera, con estilo featured) ── */
+  .rutine-card.active-rutine {
+    background:
+      linear-gradient(140deg, rgba(200,255,0,0.22) 0%, rgba(0,212,255,0.16) 45%, rgba(200,255,0,0.12) 100%),
+      var(--card2);
+    border-color: rgba(200,255,0,0.5);
+    border-left: 6px solid var(--accent);
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px rgba(200,255,0,0.12) inset, 0 12px 28px rgba(0,0,0,0.35);
+  }
+  .rutine-card.active-rutine .rutine-num { color: rgba(200,255,0,0.2); }
+  .rutine-card.active-rutine:hover {
+    background:
+      linear-gradient(140deg, rgba(200,255,0,0.28) 0%, rgba(0,212,255,0.2) 45%, rgba(200,255,0,0.14) 100%),
+      var(--card2);
+    box-shadow: 0 0 0 1px rgba(200,255,0,0.2) inset, 0 12px 34px rgba(200,255,0,0.2);
+  }
+  .rutine-card.active-rutine .rutine-arrow {
+    background: var(--accent);
+    color: var(--black);
+    border: 1px solid rgba(9,9,9,0.5);
+    border-radius: 3px;
+    padding: 4px 8px;
+    line-height: 1;
+    font-size: 13px;
+  }
+  .rutine-card.active-rutine:hover .rutine-arrow { background: #e8ff6f; }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 56px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--border);
+    text-transform: uppercase;
+    animation: fadeDown 0.6s 1.0s ease both;
+    opacity: 0;
+  }
+
+  /* ── ANIMACIONES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+
+  <!-- TICKER FIJO -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span>MIS RUTINAS</span><span class="dot">·</span>
+      <span>ENTRENO · DIETA · SUEÑO</span><span class="dot">·</span>
+      <span>HISTORIAL COMPLETO</span><span class="dot">·</span>
+      <span>FITNESS</span><span class="dot">·</span>
+      <span>MIS RUTINAS</span><span class="dot">·</span>
+      <span>ENTRENO · DIETA · SUEÑO</span><span class="dot">·</span>
+      <span>HISTORIAL COMPLETO</span><span class="dot">·</span>
+      <span>FITNESS</span><span class="dot">·</span>
+    </div>
+  </div>
+
+  <!-- ESPACIADO BAJO TICKER -->
+  <div class="ticker-spacer"></div>
+
+  <!-- VOLVER -->
+  <a class="back-link" href="index.html">← Inicio</a>
+
+  <h1 class="name">MIS <em>RUTINAS</em></h1>
+  <p class="bio">· historial de planes de entreno · dieta · sueño ·</p>
+
+  <div class="rutines">
+
+    <div class="sec-label">Rutinas activas y anteriores</div>
+
+    <!-- RUTINA 01 -->
+    <a class="rutine-card active-rutine" href="rutine01.html" target="_blank" rel="noopener">
+      <div class="rutine-num">01</div>
+      <div class="rutine-info">
+        <div class="rutine-title">Volumen Limpio</div>
+        <div class="rutine-meta">PPL · 6 días · 3.120 kcal · 88 kg</div>
+      </div>
+      <div class="rutine-badge">Activa</div>
+      <div class="rutine-arrow">→</div>
+    </a>
+
+  </div>
+
+  <footer>© dani</footer>
+
+</body>
+</html>
