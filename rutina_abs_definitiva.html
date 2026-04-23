@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rutina Abs Definitiva — Dani</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #101010;
+    --surface2: #181818;
+    --surface3: #202020;
+    --border: #1e1e1e;
+    --accent: #c8ff00;
+    --accent-dim: rgba(200,255,0,0.06);
+    --accent-glow: rgba(200,255,0,0.15);
+    --text: #e4e4e0;
+    --muted: #555;
+    --dim: #888;
+    --purple: #a78bfa;
+    --blue: #38bdf8;
+    --orange: #fb923c;
+    --red: #f87171;
+    --gold: #fbbf24;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* GRAIN */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 60px 24px 120px; }
+
+  /* HEADER */
+  .header {
+    margin-bottom: 72px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(58px, 11vw, 100px);
+    line-height: 0.88;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+
+  .header h1 em {
+    color: var(--accent);
+    font-style: normal;
+    display: block;
+  }
+
+  .header-sub {
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--dim);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .header-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .pill.active {
+    border-color: rgba(200,255,0,0.3);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* SCIENCE BLOCK */
+  .science-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 24px 28px;
+    margin-bottom: 48px;
+  }
+
+  .science-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .science-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .sp {
+    font-size: 12px;
+    color: var(--dim);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .sp::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  .sp strong { color: var(--text); }
+
+  /* SECTION TITLE */
+  .sec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  .sec-title span { color: var(--accent); }
+
+  .sec-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+
+  /* MUSCLE MAP */
+  .muscle-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .muscle-card {
+    background: var(--surface);
+    padding: 18px 16px;
+    transition: background 0.15s;
+  }
+
+  .muscle-card:hover { background: var(--surface2); }
+
+  .mc-icon { font-size: 20px; margin-bottom: 8px; }
+
+  .mc-name {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .mc-role {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .mc-exercises {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    opacity: 0.7;
+  }
+
+  /* CADENA POSTERIOR ALERT */
+  .alert-box {
+    background: rgba(167,139,250,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-left: 3px solid var(--purple);
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+
+  .alert-box h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    margin-bottom: 12px;
+  }
+
+  .alert-body {
+    font-size: 12.5px;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .alert-body strong { color: var(--text); }
+
+  .alert-fixes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .fix-item {
+    background: rgba(167,139,250,0.06);
+    border: 1px solid rgba(167,139,250,0.12);
+    padding: 10px 14px;
+    font-size: 11.5px;
+  }
+
+  .fix-item .fi-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--purple);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .fix-item .fi-name { font-weight: 500; font-size: 12.5px; color: var(--text); }
+  .fix-item .fi-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* DAY SCHEDULE */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .sched-day {
+    background: var(--surface);
+    padding: 16px 12px;
+  }
+
+  .sched-day.active { background: var(--accent-dim); border-top: 2px solid var(--accent); }
+  .sched-day.purple { background: rgba(167,139,250,0.05); border-top: 2px solid var(--purple); }
+
+  .sd-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .sched-day.active .sd-label { color: var(--accent); }
+  .sched-day.purple .sd-label { color: var(--purple); }
+
+  .sd-day { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+
+  .sd-exercises {
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* EXERCISE TABLE */
+  .ex-section { margin-bottom: 56px; }
+
+  .ex-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+  }
+
+  .ex-table thead tr { border-bottom: 1px solid var(--border); }
+
+  .ex-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 8px 12px 8px 0;
+    text-align: left;
+    font-weight: 400;
+  }
+
+  .ex-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: background 0.15s;
+  }
+
+  .ex-table tbody tr:hover { background: var(--accent-dim); }
+
+  .ex-table td {
+    padding: 14px 12px 14px 0;
+    font-size: 13px;
+    vertical-align: top;
+  }
+
+  .ex-name { font-weight: 500; color: var(--text); display: block; margin-bottom: 2px; }
+  .ex-target { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 2px 7px;
+    margin-left: 6px;
+    border-radius: 2px;
+    vertical-align: middle;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+  }
+
+  .badge.primary { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(200,255,0,0.2); }
+  .badge.hypo { background: rgba(167,139,250,0.08); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+  .badge.chain { background: rgba(251,191,36,0.07); color: var(--gold); border: 1px solid rgba(251,191,36,0.18); }
+
+  .sets-reps {
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .rest-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .ex-note { font-size: 11.5px; color: var(--dim); line-height: 1.5; }
+
+  /* HIPOPRESIVOS BLOCK */
+  .hypo-block {
+    background: rgba(167,139,250,0.04);
+    border: 1px solid rgba(167,139,250,0.15);
+    padding: 28px;
+    margin-bottom: 56px;
+  }
+
+  .hypo-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .hypo-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .hypo-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.06em;
+    color: var(--purple);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .hypo-subtitle {
+    font-size: 11.5px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+
+  .hypo-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: rgba(167,139,250,0.1);
+    border: 1px solid rgba(167,139,250,0.1);
+    margin-bottom: 20px;
+  }
+
+  .hypo-step {
+    background: var(--surface);
+    padding: 14px 16px;
+  }
+
+  .hs-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--purple);
+    opacity: 0.25;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .hs-name { font-weight: 600; font-size: 12.5px; margin-bottom: 4px; }
+  .hs-desc { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+
+  .hypo-positions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(167,139,250,0.1);
+    border: 1px solid rgba(167,139,250,0.1);
+    margin-bottom: 16px;
+  }
+
+  .hp-card {
+    background: var(--surface2);
+    padding: 14px 16px;
+  }
+
+  .hp-pos {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--purple);
+    opacity: 0.6;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .hp-name { font-weight: 600; font-size: 13px; margin-bottom: 5px; }
+  .hp-detail { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+
+  .hypo-science {
+    background: rgba(167,139,250,0.04);
+    border-top: 1px solid rgba(167,139,250,0.1);
+    padding-top: 16px;
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .hypo-science strong { color: var(--text); }
+
+  /* WEEKLY PLAN */
+  .weekly-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 1px;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+  }
+
+  .wc-day {
+    background: var(--surface2);
+    padding: 18px 16px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .wc-day-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .wc-day-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .wc-day-type.main { color: var(--accent); }
+  .wc-day-type.hypo { color: var(--purple); }
+  .wc-day-type.rest { color: var(--muted); }
+
+  .wc-content { padding: 16px 20px; }
+
+  .wc-exercises {
+    font-size: 12.5px;
+    color: var(--dim);
+    line-height: 1.9;
+  }
+
+  .wc-exercises strong { color: var(--text); }
+  .wc-exercises .accent { color: var(--accent); }
+  .wc-exercises .purple { color: var(--purple); }
+
+  /* PROGRESSION */
+  .progression-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .prog-card {
+    background: var(--surface);
+    padding: 20px 18px;
+  }
+
+  .prog-week {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--accent);
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .prog-title { font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+  .prog-desc { font-size: 11.5px; color: var(--muted); line-height: 1.6; }
+  .prog-desc strong { color: var(--text); }
+
+  /* NOTES */
+  .notes-final {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 28px;
+    margin-top: 56px;
+  }
+
+  .notes-final h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .notes-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+
+  .notes-list li {
+    font-size: 12.5px;
+    color: var(--dim);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .notes-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); opacity: 0.5; }
+  .notes-list li strong { color: var(--text); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 56px 0; }
+
+  @media (max-width: 640px) {
+    .muscle-grid { grid-template-columns: repeat(2, 1fr); }
+    .schedule-grid { grid-template-columns: repeat(2, 1fr); }
+    .hypo-positions { grid-template-columns: 1fr; }
+    .progression-grid { grid-template-columns: 1fr; }
+    .weekly-card { grid-template-columns: 1fr; }
+    .wc-day { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Protocolo definitivo · Basado en evidencia · 2026</div>
+    <h1>RUTINA<br><em>ABS</em></h1>
+    <div class="header-sub">
+      Diseñada para hipertrofia abdominal completa, corrección de cadena posterior y trabajo hipopresivo integrado. Frecuencia 3–4 veces por semana distribuida en los 5 días de entrenamiento.
+    </div>
+    <div class="header-pills">
+      <div class="pill active">Recto abdominal</div>
+      <div class="pill active">Oblicuos</div>
+      <div class="pill active">Transverso</div>
+      <div class="pill active">Cadena posterior</div>
+      <div class="pill active">Hipopresivos</div>
+      <div class="pill">3–4× / semana</div>
+      <div class="pill">10–15 min / sesión</div>
+    </div>
+  </div>
+
+  <!-- SCIENCE -->
+  <div class="science-block">
+    <h3>⚗ BASE CIENTÍFICA — Por qué está diseñado así</h3>
+    <div class="science-points">
+      <div class="sp"><strong>Frecuencia 2–4×/sem superior a 1×.</strong> Schoenfeld et al. (2016, PubMed) — entrenar un músculo 2 veces por semana produce mayor hipertrofia que 1 vez con volumen total equivalente.</div>
+      <div class="sp"><strong>Relación dosis-respuesta con el volumen.</strong> Cada serie adicional supone un +0.37% de hipertrofia (Schoenfeld et al., 2017). Para el core: 10–15 series semanales es el rango óptimo.</div>
+      <div class="sp"><strong>El recto abdominal tiene porciones superior e inferior</strong> (Gomirato & Grenier, 2023). Necesita ejercicios de flexión (crunches/cable) Y elevación de piernas para estimularlo completo.</div>
+      <div class="sp"><strong>Los oblicuos requieren rotación y flexión lateral.</strong> Son críticos para la cintura estrecha y la estabilidad lumbar — frecuentemente infra-entrenados.</div>
+      <div class="sp"><strong>El transverso abdominal es la "faja natural".</strong> Se activa mejor con vacuum/hipopresivos y ejercicios de estabilidad que con crunches clásicos.</div>
+      <div class="sp"><strong>Hipopresivos: evidencia moderada pero real.</strong> Revisión sistemática 2024 (Murcia Salud/PubMed) — mejora del transverso, reducción de perímetro de cintura y corrección postural. Calidad de estudios baja-moderada, pero beneficios postulares y de cadena posterior son consistentes.</div>
+      <div class="sp"><strong>Cadena posterior ancha = desequilibrio flexores/extensores.</strong> El isquiosural y glúteo cortos y la faja lumbosacra tensa empujan el abdomen hacia afuera. La corrección es postural + core profundo, no más crunches.</div>
+      <div class="sp"><strong>Proximidad al fallo = estímulo óptimo.</strong> Baz-Valle et al. (2022) — las series deben ejecutarse cerca del fallo muscular para maximizar reclutamiento de unidades motoras.</div>
+    </div>
+  </div>
+
+  <!-- CADENA POSTERIOR -->
+  <div class="alert-box">
+    <h3>⚠ CADENA POSTERIOR ANCHA — Qué pasa y cómo se corrige</h3>
+    <div class="alert-body">
+      La cadena posterior ancha (isquiosurales, glúteos y erectores espinales acortados o hipertónicos) provoca una <strong>anteversión pélvica</strong> — la pelvis se inclina hacia adelante, empujando el abdomen hacia afuera y generando una falsa barriga incluso con bajo porcentaje de grasa. En tu caso, con volumen alto de entrenamiento de piernas y espalda, este patrón es muy común.<br><br>
+      <strong>No se corrige solo con más abdominales.</strong> Se corrige combinando: core profundo (transverso + hipopresivos), estiramiento activo de cadena posterior, y ejercicios de retroversión pélvica.
+    </div>
+    <div class="alert-fixes">
+      <div class="fix-item">
+        <div class="fi-label">Corrección 1</div>
+        <div class="fi-name">Hipopresivos</div>
+        <div class="fi-note">Activan transverso y recolocan pelvis. 2–3×/semana en ayunas.</div>
+      </div>
+      <div class="fix-item">
+        <div class="fi-label">Corrección 2</div>
+        <div class="fi-name">Dead bug</div>
+        <div class="fi-note">Retroversión pélvica activa + anti-extensión lumbar.</div>
+      </div>
+      <div class="fix-item">
+        <div class="fi-label">Corrección 3</div>
+        <div class="fi-name">Estiramiento isquiosural</div>
+        <div class="fi-note">3 min por pierna post-sesión. Todos los días de entreno.</div>
+      </div>
+      <div class="fix-item">
+        <div class="fi-label">Corrección 4</div>
+        <div class="fi-name">Hollow body hold</div>
+        <div class="fi-note">Activa core profundo en retroversión. Clave para postura.</div>
+      </div>
+      <div class="fix-item">
+        <div class="fi-label">Corrección 5</div>
+        <div class="fi-name">Estiramiento de flexores de cadera</div>
+        <div class="fi-note">Psoas e iliaco — 2 min/lado post-sesión. Opuesto a la cadena posterior.</div>
+      </div>
+      <div class="fix-item">
+        <div class="fi-label">Corrección 6</div>
+        <div class="fi-name">Conciencia postural</div>
+        <div class="fi-note">Pelvis neutra sentado y de pie. Activa glúteo al caminar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÚSCULOS OBJETIVO -->
+  <div class="sec-title">MÚSCULOS <span>OBJETIVO</span></div>
+  <div class="sec-desc">Core completo · 4 grupos · Estimulación diferenciada</div>
+
+  <div class="muscle-grid">
+    <div class="muscle-card">
+      <div class="mc-icon">▮▮▮</div>
+      <div class="mc-name">Recto abdominal</div>
+      <div class="mc-role">El "six pack". Flexión del tronco. Tiene porción superior e inferior — necesita ejercicios distintos para cada zona.</div>
+      <div class="mc-exercises">Crunch cable · Elevación piernas · Ab wheel</div>
+    </div>
+    <div class="muscle-card">
+      <div class="mc-icon">✕</div>
+      <div class="mc-name">Oblicuos ext. e int.</div>
+      <div class="mc-role">Rotación y flexión lateral. Marcan la cintura. Críticos para la definición lateral y la estabilidad lumbar.</div>
+      <div class="mc-exercises">Pallof press · Rotación cable · Plancha lateral</div>
+    </div>
+    <div class="muscle-card">
+      <div class="mc-icon">◎</div>
+      <div class="mc-name">Transverso abdominal</div>
+      <div class="mc-role">La faja profunda. Estabiliza la columna. Se activa con vacío/hipopresivos y anti-extensión. Clave para cadena posterior.</div>
+      <div class="mc-exercises">Hipopresivos · Dead bug · Hollow body</div>
+    </div>
+    <div class="muscle-card">
+      <div class="mc-icon">↕</div>
+      <div class="mc-name">Erectores / Cadena post.</div>
+      <div class="mc-role">Equilibrio con el core anterior. La cadena posterior ancha crea anteversión — hay que estirarla y activar el antagonista.</div>
+      <div class="mc-exercises">Estiramiento isquios · Bird dog · Buenos días</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DISTRIBUCIÓN SEMANAL -->
+  <div class="sec-title">DISTRIBUCIÓN <span>SEMANAL</span></div>
+  <div class="sec-desc">Integrada en los 5 días de entreno · 3–4 sesiones de abs · 2–3 de hipopresivos</div>
+
+  <div class="schedule-grid" style="margin-bottom:48px;">
+    <div class="sched-day active">
+      <div class="sd-label">D1 · Pecho+Tríceps</div>
+      <div class="sd-day">ABS A</div>
+      <div class="sd-exercises">Crunch cable · Plancha · Elevación piernas colgado</div>
+    </div>
+    <div class="sched-day active">
+      <div class="sd-label">D2 · Piernas Quad</div>
+      <div class="sd-day">ABS B</div>
+      <div class="sd-exercises">Ab wheel · Crunch cable · Plancha lateral</div>
+    </div>
+    <div class="sched-day active">
+      <div class="sd-label">D3 · Espalda+Bíceps</div>
+      <div class="sd-day">ABS C</div>
+      <div class="sd-exercises">Elevación piernas · Crunch inverso · Tijeras</div>
+    </div>
+    <div class="sched-day active">
+      <div class="sd-label">D4 · Hombros+Brazos</div>
+      <div class="sd-day">ABS D</div>
+      <div class="sd-exercises">Pallof press · Dead bug · Hollow body hold</div>
+    </div>
+    <div class="sched-day active">
+      <div class="sd-label">D5 · Piernas Post.</div>
+      <div class="sd-day">ABS A</div>
+      <div class="sd-exercises">Crunch cable · Plancha · Elevación piernas colgado</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(167,139,250,0.05); border:1px solid rgba(167,139,250,0.15); padding:14px 18px; margin-bottom:48px; font-size:12.5px; color:var(--dim);">
+    <strong style="color:var(--purple);">HIPOPRESIVOS:</strong> 3 veces por semana — mañana en ayunas antes del desayuno (D1 · D3 · D5) o días de descanso. <strong style="color:var(--text);">Nunca después de comer</strong> y nunca inmediatamente antes del entrenamiento pesado.
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ABS A -->
+  <div class="ex-section">
+    <div class="sec-title">ABS <span>A</span> — Recto + Fuerza</div>
+    <div class="sec-desc">D1 y D5 · ~12 min · Final de sesión</div>
+
+    <table class="ex-table">
+      <thead>
+        <tr>
+          <th style="width:36%">Ejercicio</th>
+          <th style="width:18%">Series × Reps</th>
+          <th style="width:13%">Descanso</th>
+          <th>Ejecución clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="ex-name">Crunch en cable de rodillas<span class="badge primary">superior</span></span>
+            <span class="ex-target">Recto abdominal porción superior</span>
+          </td>
+          <td><span class="sets-reps">4 × 12–15</span></td>
+          <td><span class="rest-time">60 seg</span></td>
+          <td><span class="ex-note">Polea alta. Manos en la nuca. Flexión desde el esternón hacia la pelvis, no desde la cabeza. Contracción máxima abajo 1 seg. Añade peso progresivamente.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Elevación de piernas colgado<span class="badge primary">inferior</span></span>
+            <span class="ex-target">Recto abdominal porción inferior + psoas</span>
+          </td>
+          <td><span class="sets-reps">4 × 10–12</span></td>
+          <td><span class="rest-time">60 seg</span></td>
+          <td><span class="ex-note">Colgado de barra. Pelvis en retroversión al subir — no balancees. Si no llegas a 10 reps, rodillas flexionadas. Progresa a piernas rectas.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Plancha frontal con lastre<span class="badge chain">cadena</span></span>
+            <span class="ex-target">Transverso + erectores + glúteo</span>
+          </td>
+          <td><span class="sets-reps">3 × 45–60 seg</span></td>
+          <td><span class="rest-time">45 seg</span></td>
+          <td><span class="ex-note">Plato en la espalda si aguantas más de 60 seg sin esfuerzo. Pelvis neutra — ni anteversión ni subir el culo. Activa glúteo y aprieta quad.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ABS B -->
+  <div class="ex-section">
+    <div class="sec-title">ABS <span>B</span> — Ab Wheel + Lateral</div>
+    <div class="sec-desc">D2 · Piernas Quad · ~10 min · Final de sesión</div>
+
+    <table class="ex-table">
+      <thead>
+        <tr>
+          <th style="width:36%">Ejercicio</th>
+          <th style="width:18%">Series × Reps</th>
+          <th style="width:13%">Descanso</th>
+          <th>Ejecución clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="ex-name">Ab wheel / Rueda abdominal<span class="badge primary">anti-ext.</span></span>
+            <span class="ex-target">Core completo en anti-extensión · transverso</span>
+          </td>
+          <td><span class="sets-reps">4 × 8–12</span></td>
+          <td><span class="rest-time">75 seg</span></td>
+          <td><span class="ex-note">El mejor ejercicio de anti-extensión. Pelvis en retroversión durante todo el recorrido — si la zona lumbar se hunde, el recorrido es demasiado largo. Empieza con recorrido corto. Progresa a de pie.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Crunch en cable de rodillas</span>
+            <span class="ex-target">Recto abdominal · fuerza con carga externa</span>
+          </td>
+          <td><span class="sets-reps">3 × 15</span></td>
+          <td><span class="rest-time">60 seg</span></td>
+          <td><span class="ex-note">Mismo patrón que ABS A. Aquí es el segundo ejercicio — baja ligeramente el peso si notas fatiga residual de piernas.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Plancha lateral con elevación de cadera<span class="badge primary">oblicuo</span></span>
+            <span class="ex-target">Oblicuo externo e interno · cuadrado lumbar</span>
+          </td>
+          <td><span class="sets-reps">3 × 12 c/lado</span></td>
+          <td><span class="rest-time">45 seg</span></td>
+          <td><span class="ex-note">En plancha lateral baja la cadera hasta casi tocar el suelo y sube hasta la línea del cuerpo. Es la versión dinámica — mucho más efectiva que mantener estático.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ABS C -->
+  <div class="ex-section">
+    <div class="sec-title">ABS <span>C</span> — Inferior + Rotación</div>
+    <div class="sec-desc">D3 · Espalda+Bíceps · ~12 min · Final de sesión</div>
+
+    <table class="ex-table">
+      <thead>
+        <tr>
+          <th style="width:36%">Ejercicio</th>
+          <th style="width:18%">Series × Reps</th>
+          <th style="width:13%">Descanso</th>
+          <th>Ejecución clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="ex-name">Elevación de piernas en paralelas<span class="badge primary">inferior</span></span>
+            <span class="ex-target">Recto inferior · psoas ilíaco</span>
+          </td>
+          <td><span class="sets-reps">4 × 12–15</span></td>
+          <td><span class="rest-time">60 seg</span></td>
+          <td><span class="ex-note">Apoyado en paralelas. Retroversión pélvica antes de subir — evita que el psoas haga todo el trabajo. Piernas rectas para más dificultad. Baja controlado.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Crunch inverso en banco declinado</span>
+            <span class="ex-target">Recto inferior · movilización de pelvis</span>
+          </td>
+          <td><span class="sets-reps">3 × 15–18</span></td>
+          <td><span class="rest-time">60 seg</span></td>
+          <td><span class="ex-note">Cabeza hacia abajo. Lleva las rodillas hacia el pecho enrollando la pelvis — el movimiento es de retroversión, no de balanceo. Muy útil para cadena posterior.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Rotación de tronco en cable<span class="badge primary">oblicuo</span></span>
+            <span class="ex-target">Oblicuos · anti-rotación</span>
+          </td>
+          <td><span class="sets-reps">3 × 14 c/lado</span></td>
+          <td><span class="rest-time">45 seg</span></td>
+          <td><span class="ex-note">Polea a altura de pecho. Brazos semirrectos. Gira desde el torso, no desde los brazos. Controla la vuelta — la fase excéntrica es igual de importante.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ABS D -->
+  <div class="ex-section">
+    <div class="sec-title">ABS <span>D</span> — Core Profundo + Cadena Posterior</div>
+    <div class="sec-desc">D4 · Hombros+Brazos · ~12 min · Especial para cadena ancha</div>
+
+    <table class="ex-table">
+      <thead>
+        <tr>
+          <th style="width:36%">Ejercicio</th>
+          <th style="width:18%">Series × Reps</th>
+          <th style="width:13%">Descanso</th>
+          <th>Ejecución clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="ex-name">Dead bug<span class="badge chain">cadena</span></span>
+            <span class="ex-target">Transverso · anti-extensión · retroversión pélvica</span>
+          </td>
+          <td><span class="sets-reps">3 × 10 c/lado</span></td>
+          <td><span class="rest-time">60 seg</span></td>
+          <td><span class="ex-note">Tumbado, espalda pegada al suelo (retroversión pélvica activa). Baja brazo y pierna opuesta sin perder el contacto lumbar con el suelo. Movimiento lento y controlado. Clave para cadena posterior.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Hollow body hold<span class="badge chain">cadena</span></span>
+            <span class="ex-target">Core completo en retroversión · isométrico</span>
+          </td>
+          <td><span class="sets-reps">3 × 30–40 seg</span></td>
+          <td><span class="rest-time">45 seg</span></td>
+          <td><span class="ex-note">Tumbado boca arriba. Espalda completamente pegada al suelo. Brazos y piernas extendidos a pocos cm del suelo. Activa todo el anterior del cuerpo — corrige la anteversión. Progresa bajando más los pies.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Pallof press en cable<span class="badge primary">anti-rot.</span></span>
+            <span class="ex-target">Oblicuos · estabilidad rotacional</span>
+          </td>
+          <td><span class="sets-reps">3 × 12 c/lado</span></td>
+          <td><span class="rest-time">45 seg</span></td>
+          <td><span class="ex-note">De pie lateral a la polea. Sostén el cable en el pecho y empuja hacia afuera resistiendo la rotación. Mantén 1 seg al frente. El objetivo es que el torso NO rote — trabaja la anti-rotación.</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ex-name">Estiramiento isquiosural activo<span class="badge chain">cadena</span></span>
+            <span class="ex-target">Cadena posterior · movilidad</span>
+          </td>
+          <td><span class="sets-reps">3 min / pierna</span></td>
+          <td><span class="rest-time">—</span></td>
+          <td><span class="ex-note">Tumbado, pierna en el aire con banda o toalla. Dorsiflexión activa del pie. Sin forzar — lleva la pierna hasta el límite y mantén 30 seg. Este ejercicio es obligatorio para la cadena posterior ancha.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HIPOPRESIVOS -->
+  <div class="hypo-block">
+    <div class="hypo-header">
+      <div class="hypo-icon">🌬</div>
+      <div>
+        <div class="hypo-title">PROTOCOLO HIPOPRESIVO</div>
+        <div class="hypo-subtitle">3× / semana · Mañana en ayunas · 10–15 min · Transverso + cadena posterior + cintura</div>
+      </div>
+    </div>
+
+    <div style="font-size:12.5px; color:var(--dim); margin-bottom:20px; line-height:1.7;">
+      Los hipopresivos activan el transverso abdominal de forma refleja mediante la apnea espiratoria y la apertura costal. <strong style="color:var(--text);">En tu caso son especialmente útiles</strong> porque la cadena posterior ancha está directamente relacionada con el tono de la faja abdominal profunda — el hipopresivo recoloca la pelvis desde dentro.
+    </div>
+
+    <div style="font-size:11px; color:var(--muted); font-family:'DM Mono',monospace; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:12px;">Técnica base · 4 pasos</div>
+    <div class="hypo-steps">
+      <div class="hypo-step">
+        <div class="hs-num">01</div>
+        <div class="hs-name">Autoelongación</div>
+        <div class="hs-desc">Estira la columna como si tirasen de tu cabeza hacia el techo. Mentón ligeramente recogido. Hombros abajo y separados de las orejas.</div>
+      </div>
+      <div class="hypo-step">
+        <div class="hs-num">02</div>
+        <div class="hs-name">Respiración</div>
+        <div class="hs-desc">Inspira en 2 seg — espira lentamente en 4 seg, vaciando los pulmones completamente. Repite 3 ciclos respiratorios.</div>
+      </div>
+      <div class="hypo-step">
+        <div class="hs-num">03</div>
+        <div class="hs-name">Apnea + apertura costal</div>
+        <div class="hs-desc">En la última espiración, sin coger aire, abre las costillas hacia los lados como si fueras a inspirar sin hacerlo. El abdomen sube y se mete hacia dentro de forma automática.</div>
+      </div>
+      <div class="hypo-step">
+        <div class="hs-num">04</div>
+        <div class="hs-name">Mantener + respirar</div>
+        <div class="hs-desc">Mantén la apnea + apertura costal 20–30 segundos. Coge aire. Descansa 30 seg. Repite 3 veces por postura.</div>
+      </div>
+    </div>
+
+    <div style="font-size:11px; color:var(--muted); font-family:'DM Mono',monospace; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:12px;">3 posturas · Progresión</div>
+    <div class="hypo-positions">
+      <div class="hp-card">
+        <div class="hp-pos">Semana 1–4 · Base</div>
+        <div class="hp-name">Tumbado</div>
+        <div class="hp-detail">Espalda en el suelo, rodillas flexionadas, brazos a los lados con palmas arriba. La más fácil para aprender la respiración. 3 repeticiones.</div>
+      </div>
+      <div class="hp-card">
+        <div class="hp-pos">Semana 3–8 · Intermedio</div>
+        <div class="hp-name">Sentado</div>
+        <div class="hp-detail">Sentado erguido, rodillas semiflexionadas, pies en flexión. Espalda muy recta. Codos a 90°. Progresa de tumbado a sentado cuando domines la apertura costal.</div>
+      </div>
+      <div class="hp-card">
+        <div class="hp-pos">Semana 6+ · Avanzado</div>
+        <div class="hp-name">De pie</div>
+        <div class="hp-detail">Pies paralelos, rodillas semidobladas, peso en puntas. Codos a 90° ligeramente adelantados. Es la postura más efectiva para cadena posterior y postura global.</div>
+      </div>
+    </div>
+
+    <div class="hypo-science">
+      <strong>Evidencia:</strong> Revisión sistemática (Murcia Salud, abril 2024) — 7 ensayos clínicos con 587 participantes. Resultados: mejora del transverso abdominal y reducción del perímetro de cintura. Limitación: calidad metodológica baja-moderada. Los hipopresivos no reemplazan el entrenamiento de fuerza abdominal pero son el único método que activa el transverso de forma refleja y reduce la presión intraabdominal simultáneamente. Para la cadena posterior ancha en hombres deportistas, la combinación de hipopresivos + estiramiento activo de isquiosurales + dead bug es la estrategia más efectiva disponible.
+    </div>
+  </div>
+
+  <!-- GUÍA PASO A PASO HIPOPRESIVOS -->
+  <div style="margin-top:32px;">
+
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:0.06em; color:var(--text); margin-bottom:4px;">GUÍA PASO A PASO — <span style="color:var(--purple);">CÓMO HACERLOS</span></div>
+    <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:28px;">Postura · Respiración · Apnea · Errores comunes · Rutina completa de 10 min</div>
+
+    <!-- ANTES DE EMPEZAR -->
+    <div style="background:rgba(167,139,250,0.05); border:1px solid rgba(167,139,250,0.12); padding:18px 22px; margin-bottom:24px;">
+      <div style="font-family:'DM Mono',monospace; font-size:9.5px; letter-spacing:0.18em; color:var(--purple); text-transform:uppercase; margin-bottom:10px; opacity:0.7;">Antes de empezar · Condiciones</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px;">
+        <div style="font-size:12px; color:var(--dim); padding-left:14px; position:relative; line-height:1.6;"><span style="position:absolute;left:0;color:var(--purple);opacity:0.5;">✓</span><strong style="color:var(--text);">Estómago vacío.</strong> Mínimo 2h después de comer. Lo ideal es en ayunas por la mañana.</div>
+        <div style="font-size:12px; color:var(--dim); padding-left:14px; position:relative; line-height:1.6;"><span style="position:absolute;left:0;color:var(--purple);opacity:0.5;">✓</span><strong style="color:var(--text);">Ropa cómoda.</strong> Nada que comprima el abdomen ni la caja torácica.</div>
+        <div style="font-size:12px; color:var(--dim); padding-left:14px; position:relative; line-height:1.6;"><span style="position:absolute;left:0;color:var(--purple);opacity:0.5;">✓</span><strong style="color:var(--text);">Espacio tranquilo.</strong> Necesitas concentración total en la respiración.</div>
+        <div style="font-size:12px; color:var(--dim); padding-left:14px; position:relative; line-height:1.6;"><span style="position:absolute;left:0;color:var(--purple);opacity:0.5;">✓</span><strong style="color:var(--text);">Colchoneta o suelo firme.</strong> Para las posiciones tumbado y sentado.</div>
+        <div style="font-size:12px; color:var(--dim); padding-left:14px; position:relative; line-height:1.6;"><span style="position:absolute;left:0;color:var(--purple);opacity:0.5;">✗</span><strong style="color:var(--red);">No hacer si tienes</strong> hipertensión arterial no controlada, embarazo, hernia de hiato activa o tras cirugía abdominal reciente.</div>
+      </div>
+    </div>
+
+    <!-- FASE 1: POSTURA BASE -->
+    <div style="display:grid; grid-template-columns:40px 1fr; gap:0; margin-bottom:2px;">
+      <div style="background:var(--purple); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:22px; color:#080808; padding:16px 0;">1</div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-left:none; padding:20px 24px;">
+        <div style="font-weight:600; font-size:14px; margin-bottom:10px; color:var(--text);">POSTURA BASE — Autoelongación</div>
+        <div style="font-size:12.5px; color:var(--dim); line-height:1.8; margin-bottom:14px;">
+          Es el punto de partida de cualquier posición (tumbado, sentado o de pie). Sin esta base, el hipopresivo no funciona.
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border);">
+          <div style="background:var(--surface2); padding:14px 16px;">
+            <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; color:var(--purple); opacity:0.6; margin-bottom:5px; text-transform:uppercase;">Columna</div>
+            <div style="font-size:12.5px; color:var(--text); font-weight:500; margin-bottom:3px;">Estira hacia arriba</div>
+            <div style="font-size:11.5px; color:var(--muted);">Imagina que un hilo tira de tu coronilla hacia el techo. Toda la columna se alarga. No es exagerar la lordosis — es elongar.</div>
+          </div>
+          <div style="background:var(--surface2); padding:14px 16px;">
+            <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; color:var(--purple); opacity:0.6; margin-bottom:5px; text-transform:uppercase;">Barbilla</div>
+            <div style="font-size:12.5px; color:var(--text); font-weight:500; margin-bottom:3px;">Doble mentón suave</div>
+            <div style="font-size:11.5px; color:var(--muted);">Recoge ligeramente la barbilla hacia el pecho — como si quisieras alargar la nuca. Sin forzar. Esto activa los flexores profundos del cuello.</div>
+          </div>
+          <div style="background:var(--surface2); padding:14px 16px;">
+            <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; color:var(--purple); opacity:0.6; margin-bottom:5px; text-transform:uppercase;">Hombros</div>
+            <div style="font-size:12.5px; color:var(--text); font-weight:500; margin-bottom:3px;">Abajo y separados</div>
+            <div style="font-size:11.5px; color:var(--muted);">Hombros lejos de las orejas. Escápulas ligeramente separadas entre sí — activa el serrato mayor. Codos a 90° con las palmas mirando hacia arriba o hacia adelante.</div>
+          </div>
+          <div style="background:var(--surface2); padding:14px 16px;">
+            <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; color:var(--purple); opacity:0.6; margin-bottom:5px; text-transform:uppercase;">Pelvis (de pie)</div>
+            <div style="font-size:12.5px; color:var(--text); font-weight:500; margin-bottom:3px;">Neutra, peso en puntas</div>
+            <div style="font-size:11.5px; color:var(--muted);">De pie: rodillas semidobladas, peso ligeramente hacia las puntas de los pies sin levantar el talón. Esto coloca la pelvis en posición neutra automáticamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2: RESPIRACIÓN -->
+    <div style="display:grid; grid-template-columns:40px 1fr; gap:0; margin-bottom:2px;">
+      <div style="background:var(--purple); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:22px; color:#080808; padding:16px 0; opacity:0.85;">2</div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-left:none; padding:20px 24px;">
+        <div style="font-weight:600; font-size:14px; margin-bottom:10px; color:var(--text);">RESPIRACIÓN PREPARATORIA — 3 ciclos</div>
+        <div style="font-size:12.5px; color:var(--dim); line-height:1.8; margin-bottom:16px;">
+          Antes de hacer la apnea necesitas vaciar bien los pulmones. Estos 3 ciclos preparan el diafragma y te centran.
+        </div>
+        <div style="display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border);">
+          <div style="background:var(--surface2); padding:14px 20px; display:grid; grid-template-columns:80px 1fr; gap:16px; align-items:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--purple); opacity:0.3; line-height:1;">INSPIRA</div>
+            <div style="font-size:12px; color:var(--dim); line-height:1.6;"><strong style="color:var(--text);">2 segundos</strong> — Por la nariz, lento. El abdomen y las costillas se expanden. No fuerces el pecho hacia arriba.</div>
+          </div>
+          <div style="background:var(--surface2); padding:14px 20px; display:grid; grid-template-columns:80px 1fr; gap:16px; align-items:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--purple); opacity:0.3; line-height:1;">ESPIRA</div>
+            <div style="font-size:12px; color:var(--dim); line-height:1.6;"><strong style="color:var(--text);">4 segundos</strong> — Por la boca, como si soplaras por una pajita muy fina. Vacía completamente los pulmones. El abdomen cae hacia dentro de forma natural. Repite 3 veces.</div>
+          </div>
+          <div style="background:rgba(167,139,250,0.06); padding:14px 20px; display:grid; grid-template-columns:80px 1fr; gap:16px; align-items:center; border-top:1px solid rgba(167,139,250,0.15);">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--purple); line-height:1;">VACÍO</div>
+            <div style="font-size:12px; color:var(--dim); line-height:1.6;"><strong style="color:var(--text);">En la tercera espiración: vacía hasta el fondo.</strong> Expulsa absolutamente todo el aire. Aquí empieza el hipopresivo real. No cojas aire todavía.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3: APNEA Y APERTURA COSTAL -->
+    <div style="display:grid; grid-template-columns:40px 1fr; gap:0; margin-bottom:2px;">
+      <div style="background:var(--purple); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:22px; color:#080808; padding:16px 0; opacity:0.7;">3</div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-left:none; padding:20px 24px;">
+        <div style="font-weight:600; font-size:14px; margin-bottom:10px; color:var(--text);">APNEA + APERTURA COSTAL — El hipopresivo real</div>
+        <div style="font-size:12.5px; color:var(--dim); line-height:1.8; margin-bottom:16px;">
+          Este es el paso más difícil de aprender. La clave es que <strong style="color:var(--text);">NO es contraer el abdomen</strong> — es abrir las costillas como si fueras a inspirar, sin llegar a coger aire.
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); margin-bottom:16px;">
+          <div style="background:var(--surface2); padding:16px 18px;">
+            <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.1em; color:var(--purple); opacity:0.6; margin-bottom:6px; text-transform:uppercase;">Paso 3A</div>
+            <div style="font-weight:600; font-size:13px; margin-bottom:6px;">Sin aire: abre las costillas</div>
+            <div style="font-size:12px; color:var(--dim); line-height:1.65;">Con los pulmones vacíos, haz el gesto de inspirar <strong style="color:var(--text);">sin coger aire</strong>. Las costillas se abren hacia los lados. Es una sensación rara al principio — como intentar respirar con la garganta cerrada.</div>
+          </div>
+          <div style="background:var(--surface2); padding:16px 18px;">
+            <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.1em; color:var(--purple); opacity:0.6; margin-bottom:6px; text-transform:uppercase;">Paso 3B</div>
+            <div style="font-weight:600; font-size:13px; margin-bottom:6px;">El abdomen sube solo</div>
+            <div style="font-size:12px; color:var(--dim); line-height:1.65;">Al abrir las costillas correctamente, el ombligo <strong style="color:var(--text);">sube y se mete hacia dentro de forma automática</strong>. No lo empujes tú — si tienes que forzarlo, la apertura costal no es correcta.</div>
+          </div>
+          <div style="background:var(--surface2); padding:16px 18px;">
+            <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.1em; color:var(--purple); opacity:0.6; margin-bottom:6px; text-transform:uppercase;">Paso 3C</div>
+            <div style="font-weight:600; font-size:13px; margin-bottom:6px;">Mantén la apnea 20–30 seg</div>
+            <div style="font-size:12px; color:var(--dim); line-height:1.65;">Mantén la apertura costal y la apnea entre 20 y 30 segundos. Empieza con 15 seg si eres principiante. La postura debe mantenerse — si la pierdes, el tiempo no cuenta.</div>
+          </div>
+          <div style="background:var(--surface2); padding:16px 18px;">
+            <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.1em; color:var(--purple); opacity:0.6; margin-bottom:6px; text-transform:uppercase;">Paso 3D</div>
+            <div style="font-weight:600; font-size:13px; margin-bottom:6px;">Coge aire lentamente</div>
+            <div style="font-size:12px; color:var(--dim); line-height:1.65;">Al terminar el tiempo, <strong style="color:var(--text);">inspira lentamente por la nariz</strong>. Relaja el abdomen. Mantén la elongación. Descansa 30 segundos respirando normal antes de la siguiente repetición.</div>
+          </div>
+        </div>
+        <div style="background:rgba(200,255,0,0.04); border:1px solid rgba(200,255,0,0.12); padding:12px 16px; font-size:12px; color:var(--dim); line-height:1.6;">
+          <strong style="color:var(--accent);">Truco para aprender la apertura costal:</strong> Pon las manos en las costillas laterales. Cuando hagas la apnea, siente cómo tus manos se separan hacia los lados — eso es la apertura correcta. Si no sientes que tus manos se mueven, no estás abriendo bien.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4: REPETICIÓN -->
+    <div style="display:grid; grid-template-columns:40px 1fr; gap:0; margin-bottom:28px;">
+      <div style="background:var(--purple); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:22px; color:#080808; padding:16px 0; opacity:0.55;">4</div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-left:none; padding:20px 24px;">
+        <div style="font-weight:600; font-size:14px; margin-bottom:10px; color:var(--text);">REPETICIÓN — 3 series por postura</div>
+        <div style="font-size:12.5px; color:var(--dim); line-height:1.8; margin-bottom:16px;">
+          Completa 3 repeticiones en cada postura (pasos 2–3 × 3 veces). Luego cambia a la siguiente postura. Una sesión completa de 10 min incluye 3 posturas × 3 repeticiones cada una.
+        </div>
+        <div style="display:flex; gap:1px; background:var(--border); border:1px solid var(--border);">
+          <div style="background:var(--surface2); padding:14px 16px; flex:1; text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--purple); opacity:0.3; line-height:1;">3</div>
+            <div style="font-size:11.5px; color:var(--text); font-weight:500;">Posturas</div>
+            <div style="font-size:11px; color:var(--muted);">Tumbado → Sentado → De pie</div>
+          </div>
+          <div style="background:var(--surface2); padding:14px 16px; flex:1; text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--purple); opacity:0.3; line-height:1;">3</div>
+            <div style="font-size:11.5px; color:var(--text); font-weight:500;">Reps / postura</div>
+            <div style="font-size:11px; color:var(--muted);">Apnea de 20–30 seg cada una</div>
+          </div>
+          <div style="background:var(--surface2); padding:14px 16px; flex:1; text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--purple); opacity:0.3; line-height:1;">30"</div>
+            <div style="font-size:11.5px; color:var(--text); font-weight:500;">Descanso</div>
+            <div style="font-size:11px; color:var(--muted);">Entre repeticiones. 60 seg entre posturas.</div>
+          </div>
+          <div style="background:var(--surface2); padding:14px 16px; flex:1; text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--purple); opacity:0.3; line-height:1;">10'</div>
+            <div style="font-size:11.5px; color:var(--text); font-weight:500;">Sesión total</div>
+            <div style="font-size:11px; color:var(--muted);">3×/semana en ayunas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ERRORES COMUNES -->
+    <div style="margin-bottom:28px;">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--red); text-transform:uppercase; margin-bottom:14px; opacity:0.8;">⚠ Errores más comunes — y cómo corregirlos</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border);">
+        <div style="background:var(--surface); padding:16px 18px; border-top:2px solid var(--red);">
+          <div style="font-weight:600; font-size:13px; margin-bottom:5px; color:var(--text);">Contraer el abdomen a propósito</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.6;"><strong style="color:var(--red);">Error:</strong> Meter la tripa con fuerza muscular.<br><strong style="color:var(--accent);">Corrección:</strong> El abdomen debe subir solo como consecuencia de la apertura costal. Si lo fuerzas, estás haciendo un vacuum normal, no un hipopresivo.</div>
+        </div>
+        <div style="background:var(--surface); padding:16px 18px; border-top:2px solid var(--red);">
+          <div style="font-weight:600; font-size:13px; margin-bottom:5px; color:var(--text);">No vaciar bien los pulmones</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.6;"><strong style="color:var(--red);">Error:</strong> Hacer la apnea con aire residual en los pulmones.<br><strong style="color:var(--accent);">Corrección:</strong> Espira completamente antes de la apnea. Tómate 4 segundos en la espiración — no te precipites.</div>
+        </div>
+        <div style="background:var(--surface); padding:16px 18px; border-top:2px solid var(--red);">
+          <div style="font-weight:600; font-size:13px; margin-bottom:5px; color:var(--text);">Perder la elongación</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.6;"><strong style="color:var(--red);">Error:</strong> Encogerse durante la apnea por el esfuerzo.<br><strong style="color:var(--accent);">Corrección:</strong> La columna debe mantenerse alargada durante todo el hipopresivo. Si te encoges, reduce el tiempo de apnea.</div>
+        </div>
+        <div style="background:var(--surface); padding:16px 18px; border-top:2px solid var(--red);">
+          <div style="font-weight:600; font-size:13px; margin-bottom:5px; color:var(--text);">Subir los hombros</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.6;"><strong style="color:var(--red);">Error:</strong> Los hombros suben hacia las orejas al abrir las costillas.<br><strong style="color:var(--accent);">Corrección:</strong> Activa conscientemente la bajada de hombros antes de la apnea. Practica frente a un espejo.</div>
+        </div>
+        <div style="background:var(--surface); padding:16px 18px; border-top:2px solid var(--red);">
+          <div style="font-weight:600; font-size:13px; margin-bottom:5px; color:var(--text);">Hacerlos después de comer</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.6;"><strong style="color:var(--red);">Error:</strong> Estómago lleno = no puedes crear el vacío correctamente y puede causar náuseas.<br><strong style="color:var(--accent);">Corrección:</strong> Siempre en ayunas o mínimo 2h después de la última comida.</div>
+        </div>
+        <div style="background:var(--surface); padding:16px 18px; border-top:2px solid var(--red);">
+          <div style="font-weight:600; font-size:13px; margin-bottom:5px; color:var(--text);">Aguantar demasiado tiempo</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.6;"><strong style="color:var(--red);">Error:</strong> Forzar la apnea hasta el mareo por querer "hacerlo bien".<br><strong style="color:var(--accent);">Corrección:</strong> Empieza con 15 seg y ve subiendo. El mareo leve es normal al principio — si es intenso, para y respira.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESIÓN TIPO 10 MIN -->
+    <div style="background:rgba(167,139,250,0.04); border:1px solid rgba(167,139,250,0.12); padding:22px 24px;">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--purple); text-transform:uppercase; margin-bottom:16px; opacity:0.7;">Sesión completa de 10 min — Semana 1 al 4</div>
+      <div style="display:flex; flex-direction:column; gap:1px;">
+        <div style="display:grid; grid-template-columns:70px 100px 1fr; gap:1px; background:var(--border);">
+          <div style="background:var(--surface2); padding:12px 14px; font-family:'DM Mono',monospace; font-size:11px; color:var(--purple); opacity:0.7;">MIN 0–3</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-weight:600; font-size:12.5px;">Tumbado</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-size:12px; color:var(--dim);">3 respiraciones preparatorias → Apnea 15–20 seg → Respira → Descansa 30 seg. Repite 3 veces.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:70px 100px 1fr; gap:1px; background:var(--border);">
+          <div style="background:var(--surface2); padding:12px 14px; font-family:'DM Mono',monospace; font-size:11px; color:var(--purple); opacity:0.7;">MIN 3–4</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-weight:600; font-size:12.5px;">Transición</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-size:12px; color:var(--dim);">Siéntate lentamente. Coloca la postura. Respiración normal 1 min antes de seguir.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:70px 100px 1fr; gap:1px; background:var(--border);">
+          <div style="background:var(--surface2); padding:12px 14px; font-family:'DM Mono',monospace; font-size:11px; color:var(--purple); opacity:0.7;">MIN 4–7</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-weight:600; font-size:12.5px;">Sentado</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-size:12px; color:var(--dim);">3 respiraciones preparatorias → Apnea 15–20 seg → Respira → Descansa 30 seg. Repite 3 veces.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:70px 100px 1fr; gap:1px; background:var(--border);">
+          <div style="background:var(--surface2); padding:12px 14px; font-family:'DM Mono',monospace; font-size:11px; color:var(--purple); opacity:0.7;">MIN 7–8</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-weight:600; font-size:12.5px;">Transición</div>
+          <div style="background:var(--surface2); padding:12px 14px; font-size:12px; color:var(--dim);">Ponte de pie lentamente. Coloca la postura. Solo añadir de pie a partir de la semana 3–4.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:70px 100px 1fr; gap:1px; background:var(--border);">
+          <div style="background:rgba(167,139,250,0.08); padding:12px 14px; font-family:'DM Mono',monospace; font-size:11px; color:var(--purple);">MIN 8–11</div>
+          <div style="background:rgba(167,139,250,0.08); padding:12px 14px; font-weight:600; font-size:12.5px;">De pie</div>
+          <div style="background:rgba(167,139,250,0.08); padding:12px 14px; font-size:12px; color:var(--dim);">3 respiraciones preparatorias → Apnea 20–30 seg → Respira → Descansa 30 seg. Repite 3 veces. <strong style="color:var(--purple);">Postura más efectiva para cadena posterior.</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PROGRESIÓN -->
+  <div class="sec-title">PROGRESIÓN <span>POR FASES</span></div>
+  <div class="sec-desc">Meses 1–3 · Sobrecarga progresiva también en abs</div>
+
+  <div class="progression-grid">
+    <div class="prog-card">
+      <div class="prog-week">M1</div>
+      <div class="prog-title">Mes 1 — Técnica</div>
+      <div class="prog-desc">
+        Aprende la ejecución de cada ejercicio. <strong>Crunch cable con carga ligera</strong>, ab wheel con recorrido corto, hollow body 20 seg. Hipopresivos en posición tumbada. Sin añadir carga extra todavía.
+      </div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-week">M2</div>
+      <div class="prog-title">Mes 2 — Carga</div>
+      <div class="prog-desc">
+        Añade peso al crunch en cable cada 2 semanas si completas todas las reps. Ab wheel con recorrido completo desde rodillas. <strong>Hollow body 35–40 seg</strong>. Hipopresivos sentado.
+      </div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-week">M3</div>
+      <div class="prog-title">Mes 3 — Intensidad</div>
+      <div class="prog-desc">
+        Elevación de piernas colgado con piernas rectas. Ab wheel desde de pie (avanzado). <strong>Plancha con lastre 10kg</strong>. Hipopresivos de pie. Añade 1 serie extra en los ejercicios principales.
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PLAN SEMANAL COMPLETO -->
+  <div class="sec-title">PLAN <span>SEMANA TIPO</span></div>
+  <div class="sec-desc">Integración completa con la rutina de 5 días</div>
+
+  <div style="margin-bottom:48px;">
+    <div class="weekly-card">
+      <div class="wc-day">
+        <div class="wc-day-name">D1</div>
+        <div class="wc-day-type main">ABS A + HIPOS</div>
+      </div>
+      <div class="wc-content">
+        <div class="wc-exercises">
+          <span class="accent">► Mañana (ayunas):</span> Hipopresivos 10 min — tumbado/sentado × 3 posturas<br>
+          <span class="accent">► Final entreno:</span> <strong>Crunch cable</strong> 4×12–15 · <strong>Elevación piernas colgado</strong> 4×10–12 · <strong>Plancha con lastre</strong> 3×45–60seg<br>
+          Estiramiento isquiosural 2 min/pierna al terminar
+        </div>
+      </div>
+    </div>
+    <div class="weekly-card">
+      <div class="wc-day">
+        <div class="wc-day-name">D2</div>
+        <div class="wc-day-type main">ABS B</div>
+      </div>
+      <div class="wc-content">
+        <div class="wc-exercises">
+          <span class="accent">► Final entreno:</span> <strong>Ab wheel</strong> 4×8–12 · <strong>Crunch cable</strong> 3×15 · <strong>Plancha lateral dinámica</strong> 3×12 c/lado<br>
+          Sin hipopresivos este día — recuperación del sistema nervioso
+        </div>
+      </div>
+    </div>
+    <div class="weekly-card">
+      <div class="wc-day">
+        <div class="wc-day-name">D3</div>
+        <div class="wc-day-type main">ABS C + HIPOS</div>
+      </div>
+      <div class="wc-content">
+        <div class="wc-exercises">
+          <span class="accent">► Mañana (ayunas):</span> Hipopresivos 10 min — sentado/de pie × 3 posturas<br>
+          <span class="accent">► Final entreno:</span> <strong>Elevación piernas en paralelas</strong> 4×12–15 · <strong>Crunch inverso</strong> 3×15–18 · <strong>Rotación en cable</strong> 3×14 c/lado
+        </div>
+      </div>
+    </div>
+    <div class="weekly-card">
+      <div class="wc-day">
+        <div class="wc-day-name">D4</div>
+        <div class="wc-day-type main">ABS D</div>
+      </div>
+      <div class="wc-content">
+        <div class="wc-exercises">
+          <span class="accent">► Final entreno:</span> <strong>Dead bug</strong> 3×10 c/lado · <strong>Hollow body hold</strong> 3×30–40seg · <strong>Pallof press</strong> 3×12 c/lado · <strong>Estiramiento isquiosural</strong> 3min/pierna<br>
+          <span style="color:var(--purple)">Sesión clave para cadena posterior — no saltarte el estiramiento</span>
+        </div>
+      </div>
+    </div>
+    <div class="weekly-card">
+      <div class="wc-day">
+        <div class="wc-day-name">D5</div>
+        <div class="wc-day-type main">ABS A + HIPOS</div>
+      </div>
+      <div class="wc-content">
+        <div class="wc-exercises">
+          <span class="accent">► Mañana (ayunas):</span> Hipopresivos 10 min — de pie × 3 posturas (postura avanzada)<br>
+          <span class="accent">► Final entreno:</span> <strong>Crunch cable</strong> 4×12–15 · <strong>Elevación piernas colgado</strong> 4×10–12 · <strong>Plancha con lastre</strong> 3×45–60seg
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTAS FINALES -->
+  <div class="notes-final">
+    <h3>REGLAS DE LA RUTINA</h3>
+    <ul class="notes-list">
+      <li><strong>Sobrecarga progresiva también en abs.</strong> Si completas todas las reps sin esfuerzo, añade carga o aumenta el tiempo. Los abs son un músculo — necesitan progresión.</li>
+      <li><strong>Hipopresivos siempre en ayunas.</strong> Con el estómago vacío el vacío abdominal es mucho más efectivo. Mínimo 2h después de comer si los haces por la tarde.</li>
+      <li><strong>La cadena posterior mejora en 6–8 semanas</strong> si eres constante con el dead bug, hollow body y estiramiento de isquiosurales. No esperes resultados en 2 semanas.</li>
+      <li><strong>El estiramiento de isquiosurales es obligatorio.</strong> No es opcional. Es la corrección directa de la cadena posterior ancha — 3 min por pierna mínimo 3 días a la semana.</li>
+      <li><strong>Los hipopresivos necesitan técnica correcta.</strong> Si no sientes que el abdomen sube solo con la apertura costal, no estás haciendo la apnea bien. Practica frente a un espejo.</li>
+      <li><strong>Descansa entre sesiones de abs.</strong> Con la distribución propuesta hay al menos 24h entre cada sesión. No añadas más abs por tu cuenta — el volumen ya es el óptimo.</li>
+      <li><strong>Pelvis neutra en todo momento de pie.</strong> Activa glúteo al caminar. La corrección postural ocurre las 24h del día, no solo en el gimnasio.</li>
+      <li><strong>Evalúa cada 4 semanas.</strong> Si el perímetro de cintura baja y la definición mejora, el plan funciona. Si no, revisa la dieta — los abs se revelan en la cocina, no en el gym.</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
